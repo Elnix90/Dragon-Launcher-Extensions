@@ -1,19 +1,28 @@
 # Dragon Launcher Extensions
 
-Ce dépôt contient les extensions pour Dragon Launcher. Chaque extension est située dans son propre dossier.
+This repository contains official and community extensions for Dragon Launcher. Each folder at the root (except configuration files) represents a standalone extension.
 
-## Structure du projet
+[![GitHub license](https://img.shields.io/github/license/Elnix90/Dragon-Launcher-Extensions?style=for-the-badge)](LICENSE)
+[![Dragon Launcher](https://img.shields.io/badge/Dragon-Launcher-blue?style=for-the-badge)](https://github.com/Elnix90/Dragon-Launcher)
 
-- `docs/`: Documentation sur la création d'extensions.
-- `extensions/`: Dossier parent pour toutes les extensions Kotlin.
-  - `extension-template/`: Un modèle de base pour une nouvelle extension.
+## Available Extensions
 
-## Comment contribuer
+- [**Internet Proxy Extension**](internet-proxy-extension/) : Allows the launcher to delegate its network requests to this extension (keeping the main launcher without `INTERNET` permission).
+- [**Auto-Update Extension**](auto-update-extension/) : Checks for updates from GitHub for the Dragon Launcher ecosystem.
 
-1. Créez un nouveau dossier dans `extensions/`.
-2. Suivez le guide dans [docs/kotlin-android-extensions.md](docs/kotlin-android-extensions.md).
-3. Soumettez une Pull Request.
+## Project Structure
 
-## Documentation
+Each directory at the root represents a Kotlin extension:
+- `internet-proxy-extension/`
+- `auto-update-extension/`
 
-Consultez la [documentation technique](docs/kotlin-android-extensions.md) pour apprendre à créer des extensions pour des applications Android en Kotlin.
+## How to Contribute
+
+1. Create a new folder at the root for your extension.
+2. Follow Android best practices (signature-level permissions, secure Intents).
+3. Ensure the extension respects the "Privacy First" philosophy.
+4. Submit a Pull Request.
+
+## License
+
+This project is licensed under the **GPL 3 License**, the same as [Dragon Launcher](https://github.com/Elnix90/Dragon-Launcher). See the [LICENSE](LICENSE) file for more details.

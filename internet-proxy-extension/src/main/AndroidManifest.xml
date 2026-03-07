@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dragon.launcher.proxy.extension">
+
+    <!-- Permission Internet nécessaire pour l'extension -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    
+    <!-- Permission personnalisée définie par l'app principale pour sécuriser la communication -->
+    <uses-permission android:name="com.dragon.launcher.APP_EXTENSION" />
+
+    <application
+        android:allowBackup="true"
+        android:label="Dragon Internet Proxy Extension"
+        android:supportsRtl="true">
+
+        <service
+            android:name=".ProxyExtensionService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.dragon.launcher.APP_EXTENSION">
+            <intent-filter>
+                <action android:name="com.dragon.launcher.ACTION_PROXY_FETCH" />
+            </intent-filter>
+        </service>
+
+    </application>
+
+</manifest>

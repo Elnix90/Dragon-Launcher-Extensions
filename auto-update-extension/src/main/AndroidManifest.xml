@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dragon.launcher.update.extension">
+
+    <!-- Permission Internet nécessaire pour vérifier GitHub -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    
+    <!-- Permission pour Dragon Launcher -->
+    <uses-permission android:name="com.dragon.launcher.APP_EXTENSION" />
+
+    <application
+        android:allowBackup="true"
+        android:label="Dragon Auto-Update Extension"
+        android:supportsRtl="true">
+
+        <service
+            android:name=".UpdateManagerService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.dragon.launcher.APP_EXTENSION">
+            <intent-filter>
+                <action android:name="com.dragon.launcher.ACTION_CHECK_UPDATES" />
+            </intent-filter>
+        </service>
+
+    </application>
+
+</manifest>
