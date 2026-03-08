@@ -86,7 +86,7 @@ jobs:
                   mkdir -p badges
                   STATUS="${{ job.status == 'success' && 'Passed' || 'Failed' }}"
                   COLOR="${{ job.status == 'success' && 'green' || 'red' }}"
-                  echo "{\"schemaVersion\": 1, \"label\": \"${{ matrix.extension }}\", \"message\": \"$STATUS\", \"color\": \"$COLOR\", \"style\": \"for-the-badge\"}" > badges/${{ matrix.extension }}.json
+                  echo "{\"schemaVersion\": 1, \"label\": \"\", \"message\": \"$STATUS\", \"color\": \"$COLOR\", \"style\": \"for-the-badge\"}" > badges/${{ matrix.extension }}.json
 
             - name: Upload Badge Artifact
               uses: actions/upload-artifact@v4
