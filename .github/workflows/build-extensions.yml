@@ -45,11 +45,12 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          # Use the installed gradle instead of ./gradlew if it's missing
+          # Use the gradle wrapper now that it exists
+          chmod +x gradlew
           if [ -f "release.jks" ]; then
-            gradle assembleRelease
+            ./gradlew assembleRelease
           else
-            gradle assembleDebug
+            ./gradlew assembleDebug
           fi
 
       - name: Prepare APKs for release

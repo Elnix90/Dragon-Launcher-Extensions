@@ -1,0 +1,46 @@
+# Android Build Output
+build/
+bin/
+gen/
+out/
+.gradle/
+.externalNativeBuild/
+.cxx/
+
+# Android Studio / IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+local.properties
+.navigation/
+captures/
+.externalNativeBuild/
+.cxx/
+sinks.index
+
+# Gradle Wrapper (DO NOT IGNORE gradlew, gradlew.bat, and gradle-wrapper.jar/properties)
+# These are kept by default as per common practice
+
+# Kotlin
+.kotlin/
+kotlin-daemon-debug.log
+
+# Key Management (Crucial for Privacy First)
+*.jks
+*.keystore
+*.p12
+*.jceks
+release.jks
+
+# Logs
+*.log
+
+# OS generated
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
