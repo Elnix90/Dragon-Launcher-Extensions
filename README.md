@@ -85,10 +85,17 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 │   └── src
 │       └── main
 ├── extensions-registry.json
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradle.properties
+├── gradlew
+├── gradlew.bat
 ├── settings.gradle.kts
 └── tree.txt
 
-13 directories, 13 files
+15 directories, 18 files
 ```
 
 ## 📄 License
