@@ -1,30 +1,30 @@
 name: "Sync Google Fonts List"
 
 on:
-  schedule:
-    - cron: "0 0 1 * *" # Le 1er de chaque mois à minuit
-  workflow_dispatch: # Permet le lancement manuel
+    schedule:
+        - cron: "0 0 1 * *" # Le 1er de chaque mois à minuit
+    workflow_dispatch: # Permet le lancement manuel
 
 jobs:
-  update-fonts:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      
-    steps:
-      - uses: actions/checkout@v4
+    update-fonts:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
 
-      - name: Update Font List
-        env:
-          GOOGLE_FONTS_API_KEY: ${{ secrets.GOOGLE_FONTS_API_KEY }}
-        run: |
-          chmod +x .github/scripts/fetch-fonts.sh
-          ./.github/scripts/fetch-fonts.sh
+        steps:
+            - uses: actions/checkout@v4
 
-      - name: Commit and Push
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git add ext-additional-fonts/google-fonts-cache.json
-          git commit -m "chore: update google fonts cache [skip ci]" || exit 0
-          git push
+            - name: Update Font List
+              env:
+                  GOOGLE_FONTS_API_KEY: ${{ secrets.GOOGLE_FONTS_API_KEY || '' }}
+              run: |
+                  chmod +x .github/scripts/fetch-fonts.sh
+                  ./.github/scripts/fetch-fonts.sh
+
+            - name: Commit and Push
+              run: |
+                  git config --global user.name "github-actions"
+                  git config --global user.email "github-actions@github.com"
+                  git add ext-additional-fonts/google-fonts-cache.json
+                  git commit -m "chore: update google fonts cache [skip ci]" || exit 0
+                  git push

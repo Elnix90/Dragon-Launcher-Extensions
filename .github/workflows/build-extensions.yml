@@ -1,75 +1,81 @@
 name: Build Extensions APKs
 
 on:
-  push:
-    tags:
-      - "v*"
-  workflow_dispatch:
+    push:
+        tags:
+            - "v*"
+    workflow_dispatch:
 
 jobs:
-  build:
-    name: Build ${{ matrix.extension }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    strategy:
-      fail-fast: false
-      matrix:
-        extension: [ext-internet-proxy, ext-auto-update, ext-shizuku-installer, ext-additional-fonts]
+    build:
+        name: Build ${{ matrix.extension }}
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        strategy:
+            fail-fast: false
+            matrix:
+                extension:
+                    [
+                        ext-internet-proxy,
+                        ext-auto-update,
+                        ext-shizuku-installer,
+                        ext-additional-fonts,
+                    ]
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'gradle'
+            - name: Set up JDK 17
+              uses: actions/setup-java@v4
+              with:
+                  distribution: "temurin"
+                  java-version: "17"
+                  cache: "gradle"
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: wrapper
+            - name: Setup Gradle
+              uses: gradle/actions/setup-gradle@v4
+              with:
+                  gradle-version: wrapper
 
-      - name: Decode keystore
-        env:
-          KEYSTORE_FILE_B64: ${{ secrets.KEYSTORE_FILE_B64 }}
-        run: |
-          if [ -n "$KEYSTORE_FILE_B64" ]; then
-            echo "$KEYSTORE_FILE_B64" | base64 -d > release.jks
-          else
-            echo "Warning: KEYSTORE_FILE_B64 secret is missing"
-          fi
+            - name: Decode keystore
+              env:
+                  KEYSTORE_FILE_B64: ${{ secrets.KEYSTORE_FILE_B64 || '' }}
+              run: |
+                  if [ -n "$KEYSTORE_FILE_B64" ]; then
+                    echo "$KEYSTORE_FILE_B64" | base64 -d > release.jks
+                  else
+                    echo "Warning: KEYSTORE_FILE_B64 secret is missing"
+                  fi
 
-      - name: Build Extension APK
-        env:
-          KEYSTORE_FILE: ${{ github.workspace }}/release.jks
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        run: |
-          chmod +x gradlew
-          # Build only the specific module from the matrix
-          if [ -f "release.jks" ]; then
-            ./gradlew :${{ matrix.extension }}:assembleRelease
-          else
-            ./gradlew :${{ matrix.extension }}:assembleDebug
-          fi
+            - name: Build Extension APK
+              env:
+                  KEYSTORE_FILE: ${{ github.workspace }}/release.jks
+                  KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD || '' }}
+                  KEY_ALIAS: ${{ secrets.KEY_ALIAS || '' }}
+                  KEY_PASSWORD: ${{ secrets.KEY_PASSWORD || '' }}
+              run: |
+                  chmod +x gradlew
+                  # Build only the specific module from the matrix
+                  if [ -f "release.jks" ]; then
+                    ./gradlew :${{ matrix.extension }}:assembleRelease
+                  else
+                    ./gradlew :${{ matrix.extension }}:assembleDebug
+                  fi
 
-      - name: Prepare APK for release
-        run: |
-          mkdir -p release-artifacts
-          find ${{ matrix.extension }}/build/outputs/apk/ -name "*.apk" -exec cp {} release-artifacts/ \;
+            - name: Prepare APK for release
+              run: |
+                  mkdir -p release-artifacts
+                  find ${{ matrix.extension }}/build/outputs/apk/ -name "*.apk" -exec cp {} release-artifacts/ \;
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: release-artifacts/*.apk
-          body: "Official APKs for Dragon Launcher Extensions."
-          tag_name: ${{ github.ref_name }}
-          append_body: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Create GitHub Release
+              uses: softprops/action-gh-release@v2
+              if: startsWith(github.ref, 'refs/tags/')
+              with:
+                  files: release-artifacts/*.apk
+                  body: "Official APKs for Dragon Launcher Extensions."
+                  tag_name: ${{ github.ref_name }}
+                  append_body: true
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

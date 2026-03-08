@@ -1,64 +1,64 @@
 name: "Extension Registry & Permission Sync Check"
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-  workflow_dispatch:
-    inputs:
-      extension:
-        description: 'Specific extension folder to check (e.g., ext-auto-update)'
-        required: false
+    pull_request:
+        types: [opened, synchronize, reopened]
+    workflow_dispatch:
+        inputs:
+            extension:
+                description: "Specific extension folder to check (e.g., ext-auto-update)"
+                required: false
 
 jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    validate:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
 
-      - name: Install dependencies
-        run: sudo apt-get install -y jq libxml2-utils
+            - name: Install dependencies
+              run: sudo apt-get install -y jq libxml2-utils
 
-      - name: Check Registry Modification
-        run: |
-          MODIFIED=$(git diff --name-only origin/main | grep "extensions-registry.json" || true)
-          if [ -z "$MODIFIED" ]; then
-            echo "::warning title=Registry Not Modified::You must update 'extensions-registry.json' when adding/modifying extensions."
-            # Uncomment below to fail the build if desired
-            # exit 1
-          fi
+            - name: Check Registry Modification
+              run: |
+                  MODIFIED=$(git diff --name-only origin/main | grep "extensions-registry.json" || true)
+                  if [ -z "$MODIFIED" ]; then
+                    echo "::warning title=Registry Not Modified::You must update 'extensions-registry.json' when adding/modifying extensions."
+                    # Uncomment below to fail the build if desired
+                    # exit 1
+                  fi
 
-      - name: Validate Permissions (Registry vs Manifest)
-        run: |
-          REGISTRY="extensions-registry.json"
-          
-          # Use user input for manual trigger, or check all for PRs
-          EXTS="${{ github.event.inputs.extension }}"
-          if [ -z "$EXTS" ]; then
-            EXTS=$(find . -maxdepth 1 -name "ext-*" -type d | sed 's|./||')
-          fi
+            - name: Validate Permissions (Registry vs Manifest)
+              run: |
+                  REGISTRY="extensions-registry.json"
 
-          for ext in $EXTS; do
-            echo "Checking $ext..."
-            MANIFEST="$ext/src/main/AndroidManifest.xml"
-            if [ -f "$MANIFEST" ]; then
-              # Get package name or ID from manifest or assume registry match
-              EXT_ID=$(jq -r ".[] | select(.id == \"$ext\" or .id == \"dragon.launcher.${ext#ext-}.extension\") | .id" $REGISTRY)
-              
-              if [ ! -z "$EXT_ID" ]; then
-                # Get permissions from Registry
-                REG_PERMS=$(jq -r ".[] | select(.id == \"$EXT_ID\") | .additional_permissions[]" $REGISTRY | sort)
-                
-                # Get permissions from Manifest
-                MANIFEST_PERMS=$(xmllint --xpath "//*[local-name()='uses-permission']/@*[local-name()='name']" $MANIFEST | sed 's/ name="//g' | sed 's/"/ /g' | tr ' ' '\n' | grep -v "com.dragon.launcher.APP_EXTENSION" | sort)
-                
-                if [ "$REG_PERMS" != "$MANIFEST_PERMS" ]; then
-                  echo "::error title=Permission Mismatch in $ext::Registry permissions do not match AndroidManifest.xml"
-                  echo "Registry: $REG_PERMS"
-                  echo "Manifest: $MANIFEST_PERMS"
-                  exit 1
-                fi
-              fi
-            fi
-          done
+                  # Use user input for manual trigger, or check all for PRs
+                  EXTS="${{ github.event.inputs.extension }}"
+                  if [ -z "$EXTS" ]; then
+                    EXTS=$(find . -maxdepth 1 -name "ext-*" -type d | sed 's|./||')
+                  fi
+
+                  for ext in $EXTS; do
+                    echo "Checking $ext..."
+                    MANIFEST="$ext/src/main/AndroidManifest.xml"
+                    if [ -f "$MANIFEST" ]; then
+                      # Get package name or ID from manifest or assume registry match
+                      EXT_ID=$(jq -r ".[] | select(.id == \"$ext\" or .id == \"dragon.launcher.${ext#ext-}.extension\") | .id" $REGISTRY)
+                      
+                      if [ ! -z "$EXT_ID" ]; then
+                        # Get permissions from Registry
+                        REG_PERMS=$(jq -r ".[] | select(.id == \"$EXT_ID\") | .additional_permissions[]" $REGISTRY | sort)
+                        
+                        # Get permissions from Manifest
+                        MANIFEST_PERMS=$(xmllint --xpath "//*[local-name()='uses-permission']/@*[local-name()='name']" $MANIFEST | sed 's/ name="//g' | sed 's/"/ /g' | tr ' ' '\n' | grep -v "com.dragon.launcher.APP_EXTENSION" | sort)
+                        
+                        if [ "$REG_PERMS" != "$MANIFEST_PERMS" ]; then
+                          echo "::error title=Permission Mismatch in $ext::Registry permissions do not match AndroidManifest.xml"
+                          echo "Registry: $REG_PERMS"
+                          echo "Manifest: $MANIFEST_PERMS"
+                          exit 1
+                        fi
+                      fi
+                    fi
+                  done
