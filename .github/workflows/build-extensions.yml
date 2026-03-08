@@ -23,8 +23,10 @@ jobs:
           java-version: '17'
           cache: 'gradle'
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew || true # In case it's not present yet
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v3
+        with:
+          gradle-version: 8.2.2
 
       - name: Decode keystore
         env:
@@ -43,12 +45,11 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          # Use default debug build if secrets are missing for development, 
-          # but normally we use assembleRelease
+          # Use the installed gradle instead of ./gradlew if it's missing
           if [ -f "release.jks" ]; then
-            ./gradlew assembleRelease
+            gradle assembleRelease
           else
-            ./gradlew assembleDebug
+            gradle assembleDebug
           fi
 
       - name: Prepare APKs for release
