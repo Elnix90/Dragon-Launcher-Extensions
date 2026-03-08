@@ -5,17 +5,9 @@ import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import kotlinx.coroutines.*
-import java.net.URL
-import java.io.File
-
-import android.app.Service
-import android.content.Intent
-import android.os.IBinder
-import android.util.Log
-import kotlinx.coroutines.*
 import org.json.JSONObject
-import java.net.URL
 import java.io.File
+import java.net.URL
 
 /**
  * Service pour fournir des polices supplémentaires au Dragon Launcher.
@@ -38,7 +30,7 @@ class FontProviderService : Service() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 // 1. Essayer de charger le fichier JSON local (pré-embarqué)
-                var jsonString = try {
+                var jsonString: String? = try {
                     assets.open("google-fonts-cache.json").bufferedReader().use { it.readText() }
                 } catch (e: Exception) {
                     null
@@ -57,26 +49,28 @@ class FontProviderService : Service() {
 
                 if (jsonString != null) {
                     val fontsArray = JSONObject(jsonString).getJSONArray("fonts")
-                
-                var downloadUrl: String? = null
-                for (i in 0 until fontsArray.length()) {
-                    val font = fontsArray.getJSONObject(i)
-                    if (font.getString("family").equals(fontName, ignoreCase = true)) {
-                        downloadUrl = font.getString("url")
-                        break
-                    }
-                }
-
-                if (downloadUrl != null) {
-                    val destination = File(cacheDir, "$fontName.ttf")
-                    URL(downloadUrl).openStream().use { input ->
-                        destination.outputStream().use { output -> input.copyTo(output) }
-                    }
+                    var downloadUrl: String? = null
                     
-                    sendBroadcast(Intent("com.dragon.launcher.FONTS_UPDATED").apply {
-                        putExtra("FONT_PATH", destination.absolutePath)
-                        putExtra("FONT_NAME", fontName)
-                    })
+                    for (i in 0 until fontsArray.length()) {
+                        val font = fontsArray.getJSONObject(i)
+                        if (font.getString("family").equals(fontName, ignoreCase = true)) {
+                            downloadUrl = font.getString("url")
+                            break
+                        }
+                    }
+
+                    if (downloadUrl != null) {
+                        val fontFile = File(cacheDir, "$fontName.ttf")
+                        URL(downloadUrl).openStream().use { input ->
+                            fontFile.outputStream().use { output -> input.copyTo(output) }
+                        }
+                        
+                        val responseIntent = Intent("com.dragon.launcher.FONTS_UPDATED").apply {
+                            putExtra("FONT_PATH", fontFile.absolutePath)
+                            putExtra("FONT_NAME", fontName)
+                        }
+                        sendBroadcast(responseIntent)
+                    }
                 }
             } catch (e: Exception) {
                 Log.e("FontProvider", "Erreur : ${e.message}")
@@ -86,3 +80,4 @@ class FontProviderService : Service() {
     
     override fun onBind(intent: Intent?): IBinder? = null
 }
+

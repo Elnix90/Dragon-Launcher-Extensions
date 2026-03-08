@@ -86,13 +86,34 @@ jobs:
                   mkdir -p badges
                   STATUS="${{ job.status == 'success' && 'Passed' || 'Failed' }}"
                   COLOR="${{ job.status == 'success' && 'green' || 'red' }}"
-                  echo "{\"schemaVersion\": 1, \"label\": \"${{ matrix.extension }}\", \"message\": \"$STATUS\", \"color\": \"$COLOR\"}" > badges/${{ matrix.extension }}.json
+                  echo "{\"schemaVersion\": 1, \"label\": \"${{ matrix.extension }}\", \"message\": \"$STATUS\", \"color\": \"$COLOR\", \"style\": \"for-the-badge\"}" > badges/${{ matrix.extension }}.json
 
-            - name: Deploy Badge Data
-              uses: peaceiris/actions-gh-pages@v3
+            - name: Upload Badge Artifact
+              uses: actions/upload-artifact@v4
               if: always()
               with:
+                  name: badge-${{ matrix.extension }}
+                  path: badges/${{ matrix.extension }}.json
+
+    deploy-badges:
+        needs: build
+        runs-on: ubuntu-latest
+        if: always()
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Download All Badge Artifacts
+              uses: actions/download-artifact@v4
+              with:
+                  path: all-badges
+                  pattern: badge-*
+                  merge-multiple: true
+
+            - name: Deploy Badges to Branch
+              uses: peaceiris/actions-gh-pages@v3
+              with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: ./badges
+                  publish_dir: ./all-badges
                   publish_branch: badges
-                  keep_files: true
+                  force_orphan: false
