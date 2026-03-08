@@ -16,7 +16,10 @@
     "additional_permissions": [
       "android.permission.INTERNET"
     ],
-    "download_url": "https://github.com/Elnix90/Dragon-Launcher-Extensions/releases/latest/download/ext-internet-proxy-release.apk"
+    "versionCode": 2,
+    "download_url": "https://github.com/Elnix90/Dragon-Launcher-Extensions/releases/latest/download/ext-internet-proxy.apk",
+    "author": "Elnix90",
+    "license": "GPL-3.0"
   },
   {
     "id": "dragon.launcher.update.extension",
@@ -26,16 +29,19 @@
       "en": "Checks for updates from GitHub for the Dragon Launcher ecosystem.",
       "fr": "Vérifie les mises à jour depuis GitHub pour l'écosystème Dragon Launcher.",
       "de": "Prüft auf Updates von GitHub für das Dragon Launcher-Ökosystem.",
-      "es": "Busca actualizaciones desde GitHub para el ecosistema de Dragon Launcher.",
+      "es": "Busca actualizaciones depuis GitHub para el ecosistema de Dragon Launcher.",
       "hi": "ड्रैगन लॉन्चर इकोसिस्टम के लिए GitHub से अपडेट की जाँच करता है।",
       "ja": "Dragon LauncherエコシステムのGitHubからのアップデートを確認します。",
       "ko": "Dragon Launcher 에코시스템에 대한 GitHub의 업데이트를 확인합니다.",
-      "pt": "Verifica atualizações do GitHub para o ecossistema Dragon Launcher."
+      "pt": "Verifica atualizações do GitHub pour l'écosystème Dragon Launcher."
     },
     "additional_permissions": [
       "android.permission.INTERNET"
     ],
-    "download_url": "https://github.com/Elnix90/Dragon-Launcher-Extensions/releases/latest/download/ext-auto-update-release.apk"
+    "versionCode": 2,
+    "download_url": "https://github.com/Elnix90/Dragon-Launcher-Extensions/releases/latest/download/ext-auto-update.apk",
+    "author": "Elnix90",
+    "license": "GPL-3.0"
   },
   {
     "id": "dragon.launcher.shizuku.extension",
@@ -45,16 +51,19 @@
       "en": "Provides privileged installation capabilities via Shizuku (ADB).",
       "fr": "Fournit des capacités d'installation privilégiées via Shizuku (ADB).",
       "de": "Bietet privilegierte Installationsfunktionen über Shizuku (ADB).",
-      "es": "Proporciona capacidades de instalación privilegiadas a través de Shizuku (ADB).",
-      "hi": "Shizuku (ADB) के माध्यम से विशेषाधिकार प्राप्त इंस्टॉलेशन क्षमताएं प्रदान करता है।",
+      "es": "Proporciona capacités de installation privilégias à travers de Shizuku (ADB).",
+      "hi": "Shizuku (ADB) के माध्यम se विशेषाधिकार प्राप्त इंस्टॉलेशन क्षमताएं प्रदान करता है।",
       "ja": "Shizuku (ADB) を介して特権的なインストール機能を提供します。",
       "ko": "Shizuku (ADB)를 통해 권한 있는 설치 기능을 제공합니다.",
-      "pt": "Fornece recursos de instalação privilegiados via Shizuku (ADB)."
+      "pt": "Fornece recursos de installation privilégiés via Shizuku (ADB)."
     },
     "additional_permissions": [
       "moe.shizuku.privilege.permission.API_V23"
     ],
-    "download_url": "https://github.com/Elnix90/Dragon-Launcher-Extensions/releases/latest/download/ext-shizuku-installer-release.apk"
+    "versionCode": 2,
+    "download_url": "https://github.com/Elnix90/Dragon-Launcher-Extensions/releases/latest/download/ext-shizuku-installer.apk",
+    "author": "Elnix90",
+    "license": "GPL-3.0"
   },
   {
     "id": "dragon.launcher.fonts.extension",
@@ -64,15 +73,18 @@
       "en": "Downloads and provides custom fonts from Google Fonts API.",
       "fr": "Télécharge et fournit des polices personnalisées via l'API Google Fonts.",
       "de": "Lädt benutzerdefinierte Schriftarten von der Google Fonts API herunter.",
-      "es": "Descarga y proporciona fuentes personalizadas desde la API de Google Fonts.",
+      "es": "Descarga y proporciona fonts personnalisées de l'API Google Fonts.",
       "hi": "Google Fonts API से कस्टम फ़ॉन्ट डाउनलोड करता है और प्रदान करता है।",
       "ja": "Google Fonts APIからカスタムフォントをダウンロードして提供します。",
       "ko": "Google Fonts API에서 맞춤 글꼴을 다운로드하여 제공합니다.",
-      "pt": "Descarrega e fornece tipos de letra personalizados da API Google Fonts."
+      "pt": "Descarrega e fornece types de letra personnalisés de l'API Google Fonts."
     },
     "additional_permissions": [
       "android.permission.INTERNET"
     ],
-    "download_url": "https://github.com/Elnix90/Dragon-Launcher-Extensions/releases/latest/download/ext-additional-fonts-release.apk"
+    "versionCode": 2,
+    "download_url": "https://github.com/Elnix90/Dragon-Launcher-Extensions/releases/latest/download/ext-additional-fonts.apk",
+    "author": "Elnix90",
+    "license": "GPL-3.0"
   }
 ]

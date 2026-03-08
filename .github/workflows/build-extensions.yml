@@ -114,9 +114,9 @@ jobs:
         if: steps.check_build.outputs.should_build == 'true'
         run: |
           APK_FILE=$(find ${{ matrix.extension }}/build/outputs/apk/ -name "*.apk" | head -n 1)
-          VERSION_NAME=$(grep "versionName =" ${{ matrix.extension }}/build.gradle.kts | cut -d'"' -f2 || echo "1.0.0")
+          if [ -z "$APK_FILE" ]; then echo "Error: APK not found" && exit 1; fi
           mkdir -p release-artifacts
-          cp "$APK_FILE" "release-artifacts/${{ matrix.extension }}-$VERSION_NAME.apk"
+          cp "$APK_FILE" "release-artifacts/${{ matrix.extension }}.apk"
 
       - name: Fetch Previous APK
         if: steps.check_build.outputs.should_build == 'false'
