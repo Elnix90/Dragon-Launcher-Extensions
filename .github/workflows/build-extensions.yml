@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        extension: [ext-internet-proxy, ext-auto-update, ext-shizuku-installer]
+        extension: [ext-internet-proxy, ext-auto-update, ext-shizuku-installer, ext-additional-fonts]
 
     steps:
       - name: Checkout

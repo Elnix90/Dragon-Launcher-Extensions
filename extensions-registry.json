@@ -52,5 +52,23 @@
       "moe.shizuku.privilege.permission.API_V23"
     ],
     "download_url": "https://github.com/Elnix90/Dragon-Launcher-Extensions/releases/latest/download/ext-shizuku-installer-release.apk"
+  },
+  {
+    "id": "dragon.launcher.fonts.extension",
+    "name": "Additional Fonts",
+    "descriptions": {
+      "en": "Downloads and provides custom fonts from Google Fonts API.",
+      "fr": "Télécharge et fournit des polices personnalisées via l'API Google Fonts.",
+      "de": "Lädt benutzerdefinierte Schriftarten von der Google Fonts API herunter.",
+      "es": "Descarga y proporciona fuentes personalizadas desde la API de Google Fonts.",
+      "hi": "Google Fonts API से कस्टम फ़ॉन्ट डाउनलोड करता है और प्रदान करता है।",
+      "ja": "Google Fonts APIからカスタムフォントをダウンロードして提供します。",
+      "ko": "Google Fonts API에서 맞춤 글꼴을 다운로드하여 제공합니다.",
+      "pt": "Descarrega e fornece tipos de letra personalizados da API Google Fonts."
+    },
+    "additional_permissions": [
+      "android.permission.INTERNET"
+    ],
+    "download_url": "https://github.com/Elnix90/Dragon-Launcher-Extensions/releases/latest/download/ext-additional-fonts-release.apk"
   }
 ]
