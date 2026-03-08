@@ -9,9 +9,8 @@ buildscript {
     }
 }
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
+// Global configuration for all subprojects
+subprojects {
+    apply(plugin = "com.android.application")
+    apply(plugin = "org.jetbrains.kotlin.android")
 }
