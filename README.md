@@ -70,6 +70,10 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 ├── LICENSE
 ├── README.md
 ├── build.gradle.kts
+├── ext-additional-fonts
+│   ├── build.gradle.kts
+│   └── src
+│       └── main
 ├── ext-auto-update
 │   ├── README.md
 │   ├── build.gradle.kts
@@ -95,7 +99,7 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 ├── gradlew.bat
 └── settings.gradle.kts
 
-15 directories, 17 files
+18 directories, 18 files
 ```
 
 ## 📄 License
