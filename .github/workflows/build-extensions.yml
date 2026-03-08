@@ -21,39 +21,29 @@ on:
         default: true
 
 jobs:
-  prepare-version:
-    name: Prepare Version
+  prepare:
+    name: Prepare Run
     runs-on: ubuntu-latest
     outputs:
-      new_tag: ${{ steps.bump.outputs.new_tag }}
-      matrix_list: ${{ steps.generate-matrix.outputs.matrix_list }}
+      tag_name: ${{ steps.gen_tag.outputs.tag_name }}
+      matrix_list: ${{ steps.gen_matrix.outputs.matrix_list }}
+      full_list: ${{ steps.gen_matrix.outputs.full_list }}
     steps:
-      - name: Get latest release
-        id: get_latest
-        uses: actions/github-script@v7
-        with:
-          script: |
-            try {
-              const { data } = await github.rest.repos.getLatestRelease({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-              });
-              core.setOutput('tag', data.tag_name);
-            } catch (e) {
-              core.setOutput('tag', 'v0');
-            }
-      - name: Calculate next version
-        id: bump
+      - name: Generate Unique Tag
+        id: gen_tag
         run: |
-          LATEST_TAG="${{ steps.get_latest.outputs.tag }}"
-          # Extraction du numéro (ex: v1, v0.0.0, v2.1 -> 1, 0, 2)
-          VERSION=$(echo $LATEST_TAG | sed 's/v//' | cut -d. -f1)
-          NEW_V=$((VERSION + 1))
-          echo "new_tag=v${NEW_V}" >> $GITHUB_OUTPUT
+          RAND=$(tr -dc 'a-z0-9' < /dev/urandom | head -c 4)
+          TAG_NAME="run-$(date +'%Y%m%d-%H%M')-$RAND"
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+          echo "Generated Tag: $TAG_NAME"
 
-      - name: Generate Matrix List
-        id: generate-matrix
+      - name: All Extensions List
+        id: gen_matrix
         run: |
+          FULL_LIST='["ext-internet-proxy", "ext-auto-update", "ext-shizuku-installer", "ext-additional-fonts"]'
+          echo "full_list=$FULL_LIST" >> $GITHUB_OUTPUT
+          
+          # Liste à construire (uniquement celles cochées)
           LIST="[]"
           if [ "${{ github.event.inputs.build_proxy }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-internet-proxy"]'); fi
           if [ "${{ github.event.inputs.build_update }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-auto-update"]'); fi
@@ -62,22 +52,34 @@ jobs:
           echo "matrix_list=$LIST" >> $GITHUB_OUTPUT
 
   build:
-    name: Build ${{ matrix.extension }}
-    needs: prepare-version
-    if: ${{ needs.prepare-version.outputs.matrix_list != '[]' }}
+    name: Process ${{ matrix.extension }}
+    needs: prepare
     runs-on: ubuntu-latest
     permissions:
       contents: write
     strategy:
       fail-fast: false
       matrix:
-        extension: ${{ fromJson(needs.prepare-version.outputs.matrix_list) }}
+        extension: ${{ fromJson(needs.prepare.outputs.full_list) }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Check if build is needed
+        id: check_build
+        run: |
+          BUILD_LIST='${{ needs.prepare.outputs.matrix_list }}'
+          if echo "$BUILD_LIST" | jq -e ". | contains([\"${{ matrix.extension }}\"])" > /dev/null; then
+            echo "should_build=true" >> $GITHUB_OUTPUT
+            echo "Extension ${{ matrix.extension }} is selected for build."
+          else
+            echo "should_build=false" >> $GITHUB_OUTPUT
+            echo "Extension ${{ matrix.extension }} NOT selected. Will fetch previous version."
+          fi
+
       - name: Set up JDK 17
+        if: steps.check_build.outputs.should_build == 'true'
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
@@ -85,27 +87,20 @@ jobs:
           cache: "gradle"
 
       - name: Setup Gradle
+        if: steps.check_build.outputs.should_build == 'true'
         uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: wrapper
-
-      - name: Decode keystore
-        env:
-          KEYSTORE_FILE_B64: ${{ secrets.KEYSTORE_FILE_B64 || '' }}
-        run: |
-          if [ -n "$KEYSTORE_FILE_B64" ]; then
-            echo "$KEYSTORE_FILE_B64" | base64 -d > release.jks
-          else
-            echo "Warning: KEYSTORE_FILE_B64 secret is missing"
-          fi
 
       - name: Build Extension APK
+        if: steps.check_build.outputs.should_build == 'true'
         env:
-          KEYSTORE_FILE: ${{ github.workspace }}/release.jks
+          KEYSTORE_FILE_B64: ${{ secrets.KEYSTORE_FILE_B64 || '' }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD || '' }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS || '' }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD || '' }}
         run: |
+          if [ -n "$KEYSTORE_FILE_B64" ]; then
+            echo "$KEYSTORE_FILE_B64" | base64 -d > release.jks
+          fi
           chmod +x gradlew
           if [ -f "release.jks" ]; then
             ./gradlew :${{ matrix.extension }}:assembleRelease
@@ -113,20 +108,47 @@ jobs:
             ./gradlew :${{ matrix.extension }}:assembleDebug
           fi
 
-      - name: Prepare APK for release
+      - name: Prepare APK from Build
+        if: steps.check_build.outputs.should_build == 'true'
         run: |
+          APK_FILE=$(find ${{ matrix.extension }}/build/outputs/apk/ -name "*.apk" | head -n 1)
+          VERSION_NAME=$(grep "versionName =" ${{ matrix.extension }}/build.gradle.kts | cut -d'"' -f2 || echo "1.0.0")
           mkdir -p release-artifacts
-          find ${{ matrix.extension }}/build/outputs/apk/ -name "*.apk" -exec cp {} release-artifacts/ \;
+          cp "$APK_FILE" "release-artifacts/${{ matrix.extension }}-$VERSION_NAME.apk"
 
-      - name: Create GitHub Release
+      - name: Fetch Previous APK
+        if: steps.check_build.outputs.should_build == 'false'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const extension = '${{ matrix.extension }}';
+            const releases = await github.rest.repos.listReleases({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            
+            for (const release of releases.data) {
+              const asset = release.assets.find(a => a.name.startsWith(extension) && a.name.endsWith('.apk'));
+              if (asset) {
+                console.log(`Found previous version: ${asset.name} in release ${release.tag_name}`);
+                const response = await fetch(asset.browser_download_url);
+                const buffer = Buffer.from(await response.arrayBuffer());
+                const fs = require('fs');
+                if (!fs.existsSync('release-artifacts')) fs.mkdirSync('release-artifacts');
+                fs.writeFileSync(`release-artifacts/${asset.name}`, buffer);
+                return;
+              }
+            }
+            core.setFailed(`No previous APK found for ${extension}`);
+
+      - name: Upload to Release
         uses: softprops/action-gh-release@v2
         with:
           files: release-artifacts/*.apk
-          body: "Official APKs for Dragon Launcher Extensions."
-          tag_name: ${{ needs.prepare-version.outputs.new_tag }}
+          tag_name: ${{ needs.prepare.outputs.tag_name }}
+          name: "Release ${{ needs.prepare.outputs.tag_name }}"
+          body: "Dragon Launcher Extensions build run. Includes updated and previous stable versions."
           append_body: true
-          generate_release_notes: true
-          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -134,8 +156,8 @@ jobs:
         if: always()
         run: |
           mkdir -p badges
-          STATUS="${{ job.status == 'success' && 'Passed' || 'Failed' }}"
-          COLOR="${{ job.status == 'success' && 'green' || 'red' }}"
+          STATUS="${{ job.status == 'success' && 'Passed' || (steps.check_build.outputs.should_build == 'false' && 'Previous' || 'Failed') }}"
+          COLOR="${{ job.status == 'success' && 'green' || (steps.check_build.outputs.should_build == 'false' && 'blue' || 'red') }}"
           echo "{\"schemaVersion\": 1, \"label\": \"\", \"message\": \"$STATUS\", \"color\": \"$COLOR\", \"style\": \"for-the-badge\"}" > badges/${{ matrix.extension }}.json
 
       - name: Upload Badge Artifact
@@ -154,18 +176,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Download All Badge Artifacts
         uses: actions/download-artifact@v4
         with:
           path: all-badges
           pattern: badge-*
           merge-multiple: true
-
-      - name: Deploy Badges to Branch
+      - name: Deploy Badges
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./all-badges
           publish_branch: badges
-          force_orphan: false
