@@ -1,6 +1,7 @@
 [
   {
     "id": "dragon.launcher.proxy.extension",
+    "package": "org.dragon.launcher.proxy",
     "name": "Internet Proxy",
     "descriptions": {
       "en": "Allows the launcher to delegate its network requests to this extension.",
@@ -19,6 +20,7 @@
   },
   {
     "id": "dragon.launcher.update.extension",
+    "package": "org.dragon.launcher.autoupdate",
     "name": "Auto-Update",
     "descriptions": {
       "en": "Checks for updates from GitHub for the Dragon Launcher ecosystem.",
@@ -37,6 +39,7 @@
   },
   {
     "id": "dragon.launcher.shizuku.extension",
+    "package": "org.dragon.launcher.shizukustaller",
     "name": "Shizuku Installer",
     "descriptions": {
       "en": "Provides privileged installation capabilities via Shizuku (ADB).",
@@ -55,6 +58,7 @@
   },
   {
     "id": "dragon.launcher.fonts.extension",
+    "package": "org.dragon.launcher.fonts",
     "name": "Additional Fonts",
     "descriptions": {
       "en": "Downloads and provides custom fonts from Google Fonts API.",
