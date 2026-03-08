@@ -1,4 +1,4 @@
-package com.dragon.launcher.fonts
+package org.dragon.launcher.fonts
 
 import android.app.Service
 import android.content.Intent
@@ -19,7 +19,7 @@ import java.net.URL
 class FontProviderService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (intent?.action == "com.dragon.launcher.ACTION_GET_FONTS") {
+        if (intent?.action == "org.dragon.launcher.ACTION_GET_FONTS") {
             val fontName = intent.getStringExtra("FONT_NAME") ?: "Roboto"
             downloadFontFromCachedList(fontName)
         }
@@ -65,7 +65,7 @@ class FontProviderService : Service() {
                             fontFile.outputStream().use { output -> input.copyTo(output) }
                         }
                         
-                        val responseIntent = Intent("com.dragon.launcher.FONTS_UPDATED").apply {
+                        val responseIntent = Intent("org.dragon.launcher.FONTS_UPDATED").apply {
                             putExtra("FONT_PATH", fontFile.absolutePath)
                             putExtra("FONT_NAME", fontName)
                         }

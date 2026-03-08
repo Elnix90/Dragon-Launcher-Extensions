@@ -14,7 +14,7 @@ class TemplateExtensionService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            "com.dragon.launcher.ACTION_TEMPLATE_COMMAND" -> {
+            "org.dragon.launcher.ACTION_TEMPLATE_COMMAND" -> {
                 val input = intent.getStringExtra("input_data") ?: ""
                 handleCommand(input)
             }
@@ -26,9 +26,9 @@ class TemplateExtensionService : Service() {
         // Core logic of your extension goes here
         
         // Return result to Dragon Launcher
-        val resultIntent = Intent("com.dragon.launcher.ACTION_TEMPLATE_RESULT").apply {
+        val resultIntent = Intent("org.dragon.launcher.ACTION_TEMPLATE_RESULT").apply {
             putExtra("output_data", "Processed: $input")
-            `package` = "com.dragon.launcher"
+            `package` = "org.dragon.launcher"
         }
         startService(resultIntent)
     }

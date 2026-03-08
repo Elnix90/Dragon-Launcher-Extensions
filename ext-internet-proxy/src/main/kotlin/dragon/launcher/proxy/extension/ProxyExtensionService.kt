@@ -14,7 +14,7 @@ class ProxyExtensionService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            "com.dragon.launcher.ACTION_PROXY_FETCH" -> {
+            "org.dragon.launcher.ACTION_PROXY_FETCH" -> {
                 val url = intent.getStringExtra("url") ?: ""
                 val requestId = intent.getStringExtra("request_id") ?: ""
                 performNetworkRequest(url, requestId)
@@ -37,10 +37,10 @@ class ProxyExtensionService : Service() {
     }
 
     private fun sendResponseToMainApp(requestId: String, data: String) {
-        val responseIntent = Intent("com.dragon.launcher.ACTION_PROXY_RESPONSE").apply {
+        val responseIntent = Intent("org.dragon.launcher.ACTION_PROXY_RESPONSE").apply {
             putExtra("request_id", requestId)
             putExtra("payload", data)
-            `package` = "com.dragon.launcher"
+            `package` = "org.dragon.launcher"
         }
         startService(responseIntent)
     }

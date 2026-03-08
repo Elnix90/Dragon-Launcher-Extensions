@@ -16,7 +16,7 @@ class UpdateManagerService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            "com.dragon.launcher.ACTION_CHECK_UPDATES" -> {
+            "org.dragon.launcher.ACTION_CHECK_UPDATES" -> {
                 val repo = intent.getStringExtra("github_repo") ?: "Elnix90/Dragon-Launcher"
                 checkForUpdates(repo)
             }
@@ -46,20 +46,20 @@ class UpdateManagerService : Service() {
     }
 
     private fun notifyMainApp(repo: String, version: String, url: String) {
-        val intent = Intent("com.dragon.launcher.ACTION_UPDATE_AVAILABLE").apply {
+        val intent = Intent("org.dragon.launcher.ACTION_UPDATE_AVAILABLE").apply {
             putExtra("repo", repo)
             putExtra("version", version)
             putExtra("download_url", url)
-            `package` = "com.dragon.launcher"
+            `package` = "org.dragon.launcher"
         }
         startService(intent)
     }
 
     private fun notifyError(repo: String, error: String) {
-        val intent = Intent("com.dragon.launcher.ACTION_UPDATE_ERROR").apply {
+        val intent = Intent("org.dragon.launcher.ACTION_UPDATE_ERROR").apply {
             putExtra("repo", repo)
             putExtra("error", error)
-            `package` = "com.dragon.launcher"
+            `package` = "org.dragon.launcher"
         }
         startService(intent)
     }

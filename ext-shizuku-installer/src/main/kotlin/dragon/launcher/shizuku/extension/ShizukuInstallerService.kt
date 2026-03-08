@@ -15,7 +15,7 @@ class ShizukuInstallerService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            "com.dragon.launcher.ACTION_INSTALL_APK" -> {
+            "org.dragon.launcher.ACTION_INSTALL_APK" -> {
                 val apkPath = intent.getStringExtra("apk_path") ?: ""
                 val packageName = intent.getStringExtra("package_name") ?: ""
                 installApkViaShizuku(apkPath, packageName)
@@ -53,19 +53,19 @@ class ShizukuInstallerService : Service() {
     }
 
     private fun notifyResult(packageName: String, success: Boolean) {
-        val intent = Intent("com.dragon.launcher.ACTION_INSTALL_RESULT").apply {
+        val intent = Intent("org.dragon.launcher.ACTION_INSTALL_RESULT").apply {
             putExtra("package_name", packageName)
             putExtra("success", success)
-            `package` = "com.dragon.launcher"
+            `package` = "org.dragon.launcher"
         }
         startService(intent)
     }
 
     private fun notifyError(packageName: String, error: String) {
-        val intent = Intent("com.dragon.launcher.ACTION_INSTALL_ERROR").apply {
+        val intent = Intent("org.dragon.launcher.ACTION_INSTALL_ERROR").apply {
             putExtra("package_name", packageName)
             putExtra("error", error)
-            `package` = "com.dragon.launcher"
+            `package` = "org.dragon.launcher"
         }
         startService(intent)
     }

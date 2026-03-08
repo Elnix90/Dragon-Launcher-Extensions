@@ -6,7 +6,7 @@
     <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
     
     <!-- Required permission for communication with Dragon Launcher -->
-    <uses-permission android:name="com.dragon.launcher.APP_EXTENSION" />
+    <uses-permission android:name="org.dragon.launcher.APP_EXTENSION" />
 
     <application
         android:allowBackup="true"
@@ -17,9 +17,9 @@
             android:name=".TemplateExtensionService"
             android:enabled="true"
             android:exported="true"
-            android:permission="com.dragon.launcher.APP_EXTENSION">
+            android:permission="org.dragon.launcher.APP_EXTENSION">
             <intent-filter>
-                <action android:name="com.dragon.launcher.ACTION_TEMPLATE_COMMAND" />
+                <action android:name="org.dragon.launcher.ACTION_TEMPLATE_COMMAND" />
             </intent-filter>
         </service>
 

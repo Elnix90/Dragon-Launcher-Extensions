@@ -5,7 +5,7 @@
     <uses-permission android:name="moe.shizuku.privilege.permission.API_V23" />
     
     <!-- Permission for Dragon Launcher to access this service -->
-    <uses-permission android:name="com.dragon.launcher.APP_EXTENSION" />
+    <uses-permission android:name="org.dragon.launcher.APP_EXTENSION" />
 
     <application
         android:allowBackup="true"
@@ -16,9 +16,9 @@
             android:name=".ShizukuInstallerService"
             android:enabled="true"
             android:exported="true"
-            android:permission="com.dragon.launcher.APP_EXTENSION">
+            android:permission="org.dragon.launcher.APP_EXTENSION">
             <intent-filter>
-                <action android:name="com.dragon.launcher.ACTION_INSTALL_APK" />
+                <action android:name="org.dragon.launcher.ACTION_INSTALL_APK" />
             </intent-filter>
         </service>
 
