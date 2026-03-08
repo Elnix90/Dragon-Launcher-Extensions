@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.dragon.launcher.proxy"
+    namespace = "org.dragon.launcher.proxy"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.dragon.launcher.proxy"
+        applicationId = "org.dragon.launcher.proxy"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

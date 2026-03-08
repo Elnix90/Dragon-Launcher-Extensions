@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.dragon.launcher.fonts"
+    namespace = "org.dragon.launcher.fonts"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.dragon.launcher.fonts"
+        applicationId = "org.dragon.launcher.fonts"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
