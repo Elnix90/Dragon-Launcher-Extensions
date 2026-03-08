@@ -72,6 +72,7 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 ├── build.gradle.kts
 ├── ext-additional-fonts
 │   ├── build.gradle.kts
+│   ├── google-fonts-cache.json
 │   └── src
 │       └── main
 ├── ext-auto-update
@@ -99,7 +100,7 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 ├── gradlew.bat
 └── settings.gradle.kts
 
-18 directories, 18 files
+18 directories, 19 files
 ```
 
 ## 📄 License
