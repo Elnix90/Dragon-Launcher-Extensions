@@ -17,7 +17,8 @@ jobs:
       - name: Generate File Tree
         run: |
           sudo apt-get install -y tree
-          tree -L 3 -I '.git|node_modules|.github' > tree.txt
+          # Ignore the temporary output file itself from the tree generation
+          tree -L 3 -I '.git|node_modules|.github|tree_output.txt' > tree_output.txt
           
       - name: Update README.md
         run: |
@@ -25,11 +26,12 @@ jobs:
           echo "## 🌳 Repository Structure" >> README.md
           echo "" >> README.md
           echo "\`\`\`text" >> README.md
-          cat tree.txt >> README.md
+          cat tree_output.txt >> README.md
           echo "\`\`\`" >> README.md
           echo "" >> README.md
           echo "## 📄 License" >> README.md
           echo "This project is licensed under the **GPL 3 License**, the same as [Dragon Launcher](https://github.com/Elnix90/Dragon-Launcher). See the [LICENSE](LICENSE) file for more details." >> README.md
+          rm tree_output.txt  # Clean up temporary file before commit
           
       - name: Commit and Push
         run: |
