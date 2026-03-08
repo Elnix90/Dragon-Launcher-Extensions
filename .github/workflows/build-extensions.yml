@@ -32,8 +32,7 @@ jobs:
       - name: Generate Unique Tag
         id: gen_tag
         run: |
-          RAND=$(tr -dc 'a-z0-9' < /dev/urandom | head -c 4)
-          TAG_NAME="run-$(date +'%Y%m%d-%H%M')-$RAND"
+          TAG_NAME="$(date +'%Y-%m-%d-%H-%M-%S')"
           echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
           echo "Generated Tag: $TAG_NAME"
 
@@ -171,6 +170,16 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create Tag
+        run: |
+          git tag ${{ needs.prepare.outputs.tag_name }}
+          git push origin ${{ needs.prepare.outputs.tag_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Download All APK Artifacts
         uses: actions/download-artifact@v4
         with:

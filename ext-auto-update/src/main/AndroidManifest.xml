@@ -3,6 +3,7 @@
 
     <!-- Permission Internet nécessaire pour vérifier GitHub -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     
     <!-- Permission pour Dragon Launcher -->
     <uses-permission android:name="org.dragon.launcher.APP_EXTENSION" />
@@ -11,6 +12,16 @@
         android:allowBackup="true"
         android:label="Dragon Auto-Update Extension"
         android:supportsRtl="true">
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="org.dragon.launcher.autoupdate.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <service
             android:name=".UpdateManagerService"
