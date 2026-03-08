@@ -99,12 +99,14 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD || '' }}
         run: |
           if [ -n "$KEYSTORE_FILE_B64" ]; then
-            echo "$KEYSTORE_FILE_B64" | base64 -d > release.jks
-          fi
-          chmod +x gradlew
-          if [ -f "release.jks" ]; then
+            echo "$KEYSTORE_FILE_B64" | base64 -d > "${{ github.workspace }}/release.jks"
+            export KEYSTORE_FILE="${{ github.workspace }}/release.jks"
+            echo "Using release keystore for assembly"
+            chmod +x gradlew
             ./gradlew :${{ matrix.extension }}:assembleRelease
           else
+            echo "No release keystore found, building debug"
+            chmod +x gradlew
             ./gradlew :${{ matrix.extension }}:assembleDebug
           fi
 
