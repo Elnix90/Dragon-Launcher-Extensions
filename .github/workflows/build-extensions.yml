@@ -143,17 +143,6 @@ jobs:
             }
             core.setFailed(`No previous APK found for ${extension}`);
 
-      - name: Upload to Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: release-artifacts/*.apk
-          tag_name: ${{ needs.prepare.outputs.tag_name }}
-          name: "Release ${{ needs.prepare.outputs.tag_name }}"
-          body: "Dragon Launcher Extensions build run. Includes updated and previous stable versions."
-          append_body: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Generate Badge Data
         if: always()
         run: |
@@ -168,6 +157,36 @@ jobs:
         with:
           name: badge-${{ matrix.extension }}
           path: badges/${{ matrix.extension }}.json
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk-${{ matrix.extension }}
+          path: release-artifacts/*.apk
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download All APK Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: all-apks
+          pattern: apk-*
+          merge-multiple: true
+
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: all-apks/*.apk
+          tag_name: ${{ needs.prepare.outputs.tag_name }}
+          name: "Release ${{ needs.prepare.outputs.tag_name }}"
+          body: "Dragon Launcher Extensions build run. Includes updated and previous stable versions."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-badges:
     needs: build
