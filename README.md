@@ -92,10 +92,9 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 ├── gradle.properties
 ├── gradlew
 ├── gradlew.bat
-├── settings.gradle.kts
-└── tree.txt
+└── settings.gradle.kts
 
-15 directories, 18 files
+15 directories, 17 files
 ```
 
 ## 📄 License
