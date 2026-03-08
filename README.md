@@ -8,6 +8,12 @@ Official and community extensions for **Dragon Launcher**. Each folder prefixed 
 
 ---
 
+> [!IMPORTANT]
+> This repository is for **Extension** related issues/features only.
+> If you have an issue with the **Main Launcher**, please report it here: [**Dragon Launcher Repository**](https://github.com/Elnix90/Dragon-Launcher/issues).
+
+---
+
 ## 🐲 Philosophy: Privacy First
 Dragon Launcher is designed to be **offline-first** and **minimalist**. 
 Extensions allow users to add functionality (like Internet access, Auto-updates, or Privileged installs) without compromising the security or simplicity of the main launcher.
