@@ -69,5 +69,7 @@ jobs:
         with:
           files: release-artifacts/*.apk
           body: "Official APKs for Dragon Launcher Extensions."
+          tag_name: ${{ github.ref_name }}
+          append_body: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
