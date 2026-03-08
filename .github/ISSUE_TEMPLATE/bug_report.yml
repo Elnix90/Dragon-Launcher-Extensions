@@ -1,0 +1,39 @@
+name: "🐛 Extension Bug Report"
+description: "Report a bug in a specific extension."
+title: "[BUG] <Extension Name>: <Summary>"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### ⚠️ IMPORTANT ⚠️
+        If the **extension system itself** is not working (e.g. extensions are not found, cannot be loaded by the launcher), please open an issue in the [main Dragon-Launcher repository](https://github.com/Elnix90/Dragon-Launcher/issues).
+
+  - type: input
+    id: extension_name
+    attributes:
+      label: "Extension Name"
+      description: "Which extension is affected? (e.g., ext-internet-proxy)"
+      placeholder: "ext-..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug_description
+    attributes:
+      label: "Bug Description"
+      description: "A clear and concise description of what the bug is."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction_steps
+    attributes:
+      label: "Steps to Reproduce"
+      description: "Tell us how to see the bug."
+      placeholder: |
+        1. Open Dragon Launcher
+        2. Go to Extension settings...
+        3. See error
+    validations:
+      required: true

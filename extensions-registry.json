@@ -1,0 +1,53 @@
+[
+  {
+    "id": "dragon.launcher.proxy.extension",
+    "name": "Internet Proxy",
+    "descriptions": {
+      "en": "Allows the launcher to delegate its network requests to this extension.",
+      "fr": "Permet au lanceur de déléguer ses requêtes réseau à cette extension.",
+      "de": "Ermöglicht dem Launcher, seine Netzwerkanfragen an diese Erweiterung zu delegieren.",
+      "es": "Permite que el lanzador delegue sus solicitudes de red a esta extensión.",
+      "hi": "लॉन्चर को अपने नेटवर्क अनुरोधों को इस एक्सटेंशन को सौंपने की अनुमति देता है।",
+      "ja": "ランチャーがネットワークリクエストをこの拡張機能に委任できるようにします。",
+      "ko": "런처가 네트워크 요청을 이 확장 프로그램에 위임할 수 있도록 허용합니다.",
+      "pt": "Permite que o lançador delegue suas solicitações de rede para esta extensão."
+    },
+    "additional_permissions": [
+      "android.permission.INTERNET"
+    ]
+  },
+  {
+    "id": "dragon.launcher.update.extension",
+    "name": "Auto-Update",
+    "descriptions": {
+      "en": "Checks for updates from GitHub for the Dragon Launcher ecosystem.",
+      "fr": "Vérifie les mises à jour depuis GitHub pour l'écosystème Dragon Launcher.",
+      "de": "Prüft auf Updates von GitHub für das Dragon Launcher-Ökosystem.",
+      "es": "Busca actualizaciones desde GitHub para el ecosistema de Dragon Launcher.",
+      "hi": "ड्रैगन लॉन्चर इकोसिस्टम के लिए GitHub से अपडेट की जाँच करता है।",
+      "ja": "Dragon LauncherエコシステムのGitHubからのアップデートを確認します。",
+      "ko": "Dragon Launcher 에코시스템에 대한 GitHub의 업데이트를 확인합니다.",
+      "pt": "Verifica atualizações do GitHub para o ecossistema Dragon Launcher."
+    },
+    "additional_permissions": [
+      "android.permission.INTERNET"
+    ]
+  },
+  {
+    "id": "dragon.launcher.shizuku.extension",
+    "name": "Shizuku Installer",
+    "descriptions": {
+      "en": "Provides privileged installation capabilities via Shizuku (ADB).",
+      "fr": "Fournit des capacités d'installation privilégiées via Shizuku (ADB).",
+      "de": "Bietet privilegierte Installationsfunktionen über Shizuku (ADB).",
+      "es": "Proporciona capacidades de instalación privilegiadas a través de Shizuku (ADB).",
+      "hi": "Shizuku (ADB) के माध्यम से विशेषाधिकार प्राप्त इंस्टॉलेशन क्षमताएं प्रदान करता है।",
+      "ja": "Shizuku (ADB) を介して特権的なインストール機能を提供します。",
+      "ko": "Shizuku (ADB)를 통해 권한 있는 설치 기능을 제공합니다.",
+      "pt": "Fornece recursos de instalação privilegiados via Shizuku (ADB)."
+    },
+    "additional_permissions": [
+      "moe.shizuku.privilege.permission.API_V23"
+    ]
+  }
+]

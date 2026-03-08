@@ -1,0 +1,29 @@
+name: "✨ New Extension / Feature Idea"
+description: "Suggest a new extension or a feature for an existing one."
+title: "[FEATURE] <Extension Name / NEW>: <Summary>"
+labels: ["enhancement"]
+body:
+  - type: input
+    id: extension_name
+    attributes:
+      label: "Extension Name"
+      description: "Proposed name or affected extension."
+      placeholder: "New-Ext or ext-..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature_description
+    attributes:
+      label: "Feature/Extension Idea"
+      description: "A clear and concise description of the new functionality."
+    validations:
+      required: true
+
+  - type: textarea
+    id: use_case
+    attributes:
+      label: "Why is this needed?"
+      description: "Describe the use case and how it fits the 'Privacy First' philosophy."
+    validations:
+      required: true
