@@ -68,22 +68,27 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 │       └── src
 ├── LICENSE
 ├── README.md
+├── build.gradle.kts
 ├── ext-auto-update
 │   ├── README.md
+│   ├── build.gradle.kts
 │   └── src
 │       └── main
 ├── ext-internet-proxy
 │   ├── README.md
+│   ├── build.gradle.kts
 │   └── src
 │       └── main
 ├── ext-shizuku-installer
 │   ├── README.md
+│   ├── build.gradle.kts
 │   └── src
 │       └── main
 ├── extensions-registry.json
+├── settings.gradle.kts
 └── tree.txt
 
-13 directories, 8 files
+13 directories, 13 files
 ```
 
 ## 📄 License
