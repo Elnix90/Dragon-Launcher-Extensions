@@ -1,0 +1,67 @@
+name: Build Extensions APKs
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew || true # In case it's not present yet
+
+      - name: Decode keystore
+        env:
+          KEYSTORE_FILE_B64: ${{ secrets.KEYSTORE_FILE_B64 }}
+        run: |
+          if [ -n "$KEYSTORE_FILE_B64" ]; then
+            echo "$KEYSTORE_FILE_B64" | base64 -d > release.jks
+          else
+            echo "Warning: KEYSTORE_FILE_B64 secret is missing"
+          fi
+
+      - name: Build Release APKs
+        env:
+          KEYSTORE_FILE: ${{ github.workspace }}/release.jks
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          # Use default debug build if secrets are missing for development, 
+          # but normally we use assembleRelease
+          if [ -f "release.jks" ]; then
+            ./gradlew assembleRelease
+          else
+            ./gradlew assembleDebug
+          fi
+
+      - name: Prepare APKs for release
+        run: |
+          mkdir -p release-artifacts
+          find . -name "*-release.apk" -exec cp {} release-artifacts/ \;
+          find . -name "*-debug.apk" -exec cp {} release-artifacts/ \;
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: release-artifacts/*.apk
+          body: "Official APKs for Dragon Launcher Extensions."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -14,6 +14,23 @@ Official and community extensions for **Dragon Launcher**. Each folder prefixed 
 
 ---
 
+## 🏗️ How to Build & Install
+
+### 📥 Download
+You can download the latest official APKs from the [**Releases Page**](https://github.com/Elnix90/Dragon-Launcher-Extensions/releases).
+
+> [!WARNING]
+> **Use caution with third-party extensions.**
+> Installation of extensions from untrusted sources is strongly discouraged. Because extensions use a **signature-level security model**, unauthorized extensions will be blocked by the launcher, but malicious APKs can still pose a risk to your device. Only install extensions from this official repository.
+
+### 🛠️ Manual Build
+Extensions are regular Android modules. To build them all at once:
+1. Clone the repo: `git clone https://github.com/Elnix90/Dragon-Launcher-Extensions`
+2. Run Gradle: `./gradlew assembleRelease`
+3. APKs will be found in `ext-*/build/outputs/apk/release/`
+
+---
+
 ## 🐲 Philosophy: Privacy First
 Dragon Launcher is designed to be **offline-first** and **minimalist**. 
 Extensions allow users to add functionality (like Internet access, Auto-updates, or Privileged installs) without compromising the security or simplicity of the main launcher.

@@ -14,7 +14,8 @@
     },
     "additional_permissions": [
       "android.permission.INTERNET"
-    ]
+    ],
+    "download_url": "https://github.com/Elnix90/Dragon-Launcher-Extensions/releases/latest/download/ext-internet-proxy-release.apk"
   },
   {
     "id": "dragon.launcher.update.extension",
@@ -31,7 +32,8 @@
     },
     "additional_permissions": [
       "android.permission.INTERNET"
-    ]
+    ],
+    "download_url": "https://github.com/Elnix90/Dragon-Launcher-Extensions/releases/latest/download/ext-auto-update-release.apk"
   },
   {
     "id": "dragon.launcher.shizuku.extension",
@@ -48,6 +50,7 @@
     },
     "additional_permissions": [
       "moe.shizuku.privilege.permission.API_V23"
-    ]
+    ],
+    "download_url": "https://github.com/Elnix90/Dragon-Launcher-Extensions/releases/latest/download/ext-shizuku-installer-release.apk"
   }
 ]
