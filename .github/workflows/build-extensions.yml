@@ -8,9 +8,14 @@ on:
 
 jobs:
   build:
+    name: Build ${{ matrix.extension }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        extension: [ext-internet-proxy, ext-auto-update, ext-shizuku-installer]
 
     steps:
       - name: Checkout
@@ -38,26 +43,25 @@ jobs:
             echo "Warning: KEYSTORE_FILE_B64 secret is missing"
           fi
 
-      - name: Build Release APKs
+      - name: Build Extension APK
         env:
           KEYSTORE_FILE: ${{ github.workspace }}/release.jks
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          # Use the gradle wrapper now that it exists
           chmod +x gradlew
+          # Build only the specific module from the matrix
           if [ -f "release.jks" ]; then
-            ./gradlew assembleRelease
+            ./gradlew :${{ matrix.extension }}:assembleRelease
           else
-            ./gradlew assembleDebug
+            ./gradlew :${{ matrix.extension }}:assembleDebug
           fi
 
-      - name: Prepare APKs for release
+      - name: Prepare APK for release
         run: |
           mkdir -p release-artifacts
-          find . -name "*-release.apk" -exec cp {} release-artifacts/ \;
-          find . -name "*-debug.apk" -exec cp {} release-artifacts/ \;
+          find ${{ matrix.extension }}/build/outputs/apk/ -name "*.apk" -exec cp {} release-artifacts/ \;
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

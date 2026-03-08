@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dragon.launcher.shizuku.extension">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Requires Shizuku to be installed and granted -->
     <uses-permission android:name="moe.shizuku.privilege.permission.API_V23" />

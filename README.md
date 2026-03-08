@@ -37,11 +37,11 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 
 ## 📦 Available Extensions
 
-| Extension | Purpose | Link |
-|-----------|---------|--------|
-| **Internet Proxy** | Bridges the launcher with the web while keeping the main app offline. | [`ext-internet-proxy/`](ext-internet-proxy/) |
-| **Auto-Update** | Checks GitHub Releases for the latest versions of the ecosystem. | [`ext-auto-update/`](ext-auto-update/) |
-| **Shizuku Installer**| Silent APK installation via privileged ADB shell (Shizuku). | [`ext-shizuku-installer/`](ext-shizuku-installer/) |
+| Extension | Build Status | Purpose | Link |
+|-----------|:---------:|---------|--------|
+| **Internet Proxy** | ![Build](https://github.com/Elnix90/Dragon-Launcher-Extensions/actions/workflows/build-extensions.yml/badge.svg?label=ext-internet-proxy) | Bridges the launcher with the web while keeping the main app offline. | [`ext-internet-proxy/`](ext-internet-proxy/) |
+| **Auto-Update** | ![Build](https://github.com/Elnix90/Dragon-Launcher-Extensions/actions/workflows/build-extensions.yml/badge.svg?label=ext-auto-update) | Checks GitHub Releases for the latest versions of the ecosystem. | [`ext-auto-update/`](ext-auto-update/) |
+| **Shizuku Installer**| ![Build](https://github.com/Elnix90/Dragon-Launcher-Extensions/actions/workflows/build-extensions.yml/badge.svg?label=ext-shizuku-installer) | Silent APK installation via privileged ADB shell (Shizuku). | [`ext-shizuku-installer/`](ext-shizuku-installer/) |
 
 > Check the [**Extensions Registry**](extensions-registry.json) for full multilingual descriptions (EN, FR, DE, ES, HI, JA, KO, PT) and required permissions.
 
