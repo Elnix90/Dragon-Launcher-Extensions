@@ -79,3 +79,20 @@ jobs:
                   append_body: true
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Generate Badge Data
+              if: always()
+              run: |
+                  mkdir -p badges
+                  STATUS="${{ job.status == 'success' && 'Passed' || 'Failed' }}"
+                  COLOR="${{ job.status == 'success' && 'green' || 'red' }}"
+                  echo "{\"schemaVersion\": 1, \"label\": \"${{ matrix.extension }}\", \"message\": \"$STATUS\", \"color\": \"$COLOR\"}" > badges/${{ matrix.extension }}.json
+
+            - name: Deploy Badge Data
+              uses: peaceiris/actions-gh-pages@v3
+              if: always()
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./badges
+                  publish_branch: badges
+                  keep_files: true

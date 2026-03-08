@@ -48,5 +48,5 @@ dependencies {
     // Coroutines pour les appels asynchrones
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     // Retrofit pour les appels API Google Fonts
-    implementation("com.squareuo.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
 }

@@ -39,10 +39,10 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 
 | Extension | Build Status | Purpose | Link |
 |-----------|:---------:|---------|--------|
-| **Internet Proxy** | ![Build](https://img.shields.io/github/actions/workflow/status/Elnix90/Dragon-Launcher-Extensions/build-extensions.yml?branch=main&label=Build&style=for-the-badge) | Bridges the launcher with the web while keeping the main app offline. | [`ext-internet-proxy/`](ext-internet-proxy/) |
-| **Auto-Update** | ![Build](https://img.shields.io/github/actions/workflow/status/Elnix90/Dragon-Launcher-Extensions/build-extensions.yml?branch=main&label=Build&style=for-the-badge) | Checks GitHub Releases for the latest versions of the ecosystem. | [`ext-auto-update/`](ext-auto-update/) |
-| **Shizuku Installer**| ![Build](https://img.shields.io/github/actions/workflow/status/Elnix90/Dragon-Launcher-Extensions/build-extensions.yml?branch=main&label=Build&style=for-the-badge) | Silent APK installation via privileged ADB shell (Shizuku). | [`ext-shizuku-installer/`](ext-shizuku-installer/) |
-| **Additional Fonts**| ![Build](https://img.shields.io/github/actions/workflow/status/Elnix90/Dragon-Launcher-Extensions/build-extensions.yml?branch=main&label=Build&style=for-the-badge) | Downloads custom fonts from Google Fonts API. | [`ext-additional-fonts/`](ext-additional-fonts/) |
+| **Internet Proxy** | ![Status](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Elnix90/Dragon-Launcher-Extensions/badges/ext-internet-proxy.json) | Bridges the launcher with the web while keeping the main app offline. | [`ext-internet-proxy/`](ext-internet-proxy/) |
+| **Auto-Update** | ![Status](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Elnix90/Dragon-Launcher-Extensions/badges/ext-auto-update.json) | Checks GitHub Releases for the latest versions of the ecosystem. | [`ext-auto-update/`](ext-auto-update/) |
+| **Shizuku Installer**| ![Status](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Elnix90/Dragon-Launcher-Extensions/badges/ext-shizuku-installer.json) | Silent APK installation via privileged ADB shell (Shizuku). | [`ext-shizuku-installer/`](ext-shizuku-installer/) |
+| **Additional Fonts**| ![Status](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Elnix90/Dragon-Launcher-Extensions/badges/ext-additional-fonts.json) | Downloads custom fonts from Google Fonts API. | [`ext-additional-fonts/`](ext-additional-fonts/) |
 
 > Check the [**Extensions Registry**](extensions-registry.json) for full multilingual descriptions (EN, FR, DE, ES, HI, JA, KO, PT) and required permissions.
 
