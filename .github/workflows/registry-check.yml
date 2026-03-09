@@ -62,3 +62,16 @@ jobs:
                       fi
                     fi
                   done
+
+            - name: Validate Workflow Sync (Checkboxes)
+              run: |
+                  WORKFLOW=".github/workflows/build-extensions.yml"
+                  EXTS=$(ls -d ext-*/ | cut -f1 -d'/' | sed 's/ext-//; s/-/_/g')
+                  
+                  for ext in $EXTS; do
+                    # Search for build_NAME in the workflow file
+                    if ! grep -q "build_$ext:" "$WORKFLOW"; then
+                      echo "::error title=Workflow Sync Missing::The extension 'ext-${ext//_/-}' is present but no 'build_$ext' checkbox found in $WORKFLOW"
+                      exit 1
+                    fi
+                  done

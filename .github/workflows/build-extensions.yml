@@ -3,6 +3,10 @@ name: Build Extensions APKs
 on:
   workflow_dispatch:
     inputs:
+      build_all:
+        description: 'Build ALL extensions (ignores selection below)'
+        type: boolean
+        default: false
       build_proxy:
         description: 'Build Internet Proxy'
         type: boolean
@@ -19,6 +23,10 @@ on:
         description: 'Build Additional Fonts'
         type: boolean
         default: true
+      build_weather:
+        description: 'Build Weather Widget'
+        type: boolean
+        default: true
 
 jobs:
   prepare:
@@ -27,8 +35,11 @@ jobs:
     outputs:
       tag_name: ${{ steps.gen_tag.outputs.tag_name }}
       matrix_list: ${{ steps.gen_matrix.outputs.matrix_list }}
-      full_list: ${{ steps.gen_matrix.outputs.full_list }}
+      full_list: ${{ steps.discovery.outputs.full_list }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Generate Unique Tag
         id: gen_tag
         run: |
@@ -36,18 +47,28 @@ jobs:
           echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
           echo "Generated Tag: $TAG_NAME"
 
-      - name: All Extensions List
+      - name: Discover Extensions
+        id: discovery
+        run: |
+          # Find all directories starting with ext-
+          LIST=$(ls -d ext-*/ | cut -f1 -d'/' | jq -R . | jq -s -c .)
+          echo "full_list=$LIST" >> $GITHUB_OUTPUT
+          echo "Discovered extensions: $LIST"
+
+      - name: Generate Build Matrix
         id: gen_matrix
         run: |
-          FULL_LIST='["ext-internet-proxy", "ext-auto-update", "ext-shizuku-installer", "ext-additional-fonts"]'
-          echo "full_list=$FULL_LIST" >> $GITHUB_OUTPUT
-          
           # Liste à construire (uniquement celles cochées)
           LIST="[]"
-          if [ "${{ github.event.inputs.build_proxy }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-internet-proxy"]'); fi
-          if [ "${{ github.event.inputs.build_update }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-auto-update"]'); fi
-          if [ "${{ github.event.inputs.build_shizuku }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-shizuku-installer"]'); fi
-          if [ "${{ github.event.inputs.build_fonts }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-additional-fonts"]'); fi
+          if [ "${{ github.event.inputs.build_all }}" = "true" ]; then
+            LIST='${{ steps.discovery.outputs.full_list }}'
+          else
+            if [ "${{ github.event.inputs.build_proxy }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-internet-proxy"]'); fi
+            if [ "${{ github.event.inputs.build_update }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-auto-update"]'); fi
+            if [ "${{ github.event.inputs.build_shizuku }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-shizuku-installer"]'); fi
+            if [ "${{ github.event.inputs.build_fonts }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-additional-fonts"]'); fi
+            if [ "${{ github.event.inputs.build_weather }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-weather-widget"]'); fi
+          fi
           echo "matrix_list=$LIST" >> $GITHUB_OUTPUT
 
   build:
