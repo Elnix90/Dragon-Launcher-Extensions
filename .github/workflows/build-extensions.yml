@@ -7,23 +7,23 @@ on:
         description: 'Build ALL extensions (ignores selection below)'
         type: boolean
         default: false
-      build_proxy:
+      ext-internet-proxy:
         description: 'Build Internet Proxy'
         type: boolean
         default: true
-      build_update:
+      ext-auto-update:
         description: 'Build Auto-Update'
         type: boolean
         default: true
-      build_shizuku:
+      ext-shizuku-installer:
         description: 'Build Shizuku Installer'
         type: boolean
         default: true
-      build_fonts:
+      ext-additional-fonts:
         description: 'Build Additional Fonts'
         type: boolean
         default: true
-      build_weather:
+      ext-weather-widget:
         description: 'Build Weather Widget'
         type: boolean
         default: true
@@ -63,11 +63,11 @@ jobs:
           if [ "${{ github.event.inputs.build_all }}" = "true" ]; then
             LIST='${{ steps.discovery.outputs.full_list }}'
           else
-            if [ "${{ github.event.inputs.build_proxy }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-internet-proxy"]'); fi
-            if [ "${{ github.event.inputs.build_update }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-auto-update"]'); fi
-            if [ "${{ github.event.inputs.build_shizuku }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-shizuku-installer"]'); fi
-            if [ "${{ github.event.inputs.build_fonts }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-additional-fonts"]'); fi
-            if [ "${{ github.event.inputs.build_weather }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-weather-widget"]'); fi
+            if [ "${{ github.event.inputs['ext-internet-proxy'] }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-internet-proxy"]'); fi
+            if [ "${{ github.event.inputs['ext-auto-update'] }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-auto-update"]'); fi
+            if [ "${{ github.event.inputs['ext-shizuku-installer'] }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-shizuku-installer"]'); fi
+            if [ "${{ github.event.inputs['ext-additional-fonts'] }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-additional-fonts"]'); fi
+            if [ "${{ github.event.inputs['ext-weather-widget'] }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-weather-widget"]'); fi
           fi
           echo "matrix_list=$LIST" >> $GITHUB_OUTPUT
 
