@@ -68,8 +68,8 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 
 ```text
 .
-├── .github
 ├── DOCS
+│   └── disable_signature_check.jpg
 ├── LICENSE
 ├── README.md
 ├── build.gradle.kts
@@ -107,6 +107,8 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 ├── gradlew
 ├── gradlew.bat
 └── settings.gradle.kts
+
+19 directories, 21 files
 ```
 
 ## 📄 License
