@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "org.dragon.launcher.autoupdate"
+    namespace = "org.elnix.dragonlauncher.autoupdate"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "org.dragon.launcher.autoupdate"
+        applicationId = "org.elnix.dragonlauncher.autoupdate"
         minSdk = 24
         targetSdk = 34
         versionCode = 2

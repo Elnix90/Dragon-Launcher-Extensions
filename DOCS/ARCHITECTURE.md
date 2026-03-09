@@ -8,22 +8,22 @@ To prevent malicious apps from interacting with your extensions or the launcher,
 
 1.  **The Launcher defines the permission**:
     ```xml
-    <permission android:name="com.dragon.launcher.APP_EXTENSION"
+    <permission android:name="org.elnix.dragonlauncher.APP_EXTENSION"
         android:protectionLevel="signature" />
     ```
 2.  **The Extension requests the permission**:
     ```xml
-    <uses-permission android:name="com.dragon.launcher.APP_EXTENSION" />
+    <uses-permission android:name="org.elnix.dragonlauncher.APP_EXTENSION" />
     ```
 3.  **The Extension protects its services**:
-    By adding `android:permission="com.dragon.launcher.APP_EXTENSION"` to its `<service>` tag, the Android system will **only** allow apps signed with the **same certificate** as the extension to bind or start that service.
+    By adding `android:permission="org.elnix.dragonlauncher.APP_EXTENSION"` to its `<service>` tag, the Android system will **only** allow apps signed with the **same certificate** as the extension to bind or start that service.
 
 ## Communication Channels
 
 ### 1. Simple Command (Intents)
 Used for one-way triggers or simple data exchange where real-time performance isn't critical.
-- **Launcher to Extension**: `startService(Intent("com.dragon.launcher.ACTION_RUN"))`
-- **Extension to Launcher**: `startService(Intent("com.dragon.launcher.ACTION_RESULT"))`
+- **Launcher to Extension**: `startService(Intent("org.elnix.dragonlauncher.ACTION_RUN"))`
+- **Extension to Launcher**: `startService(Intent("org.elnix.dragonlauncher.ACTION_RESULT"))`
 
 ### 2. High Performance (AIDL)
 Recommended for frequent data exchange or when the extension provides a complex API.

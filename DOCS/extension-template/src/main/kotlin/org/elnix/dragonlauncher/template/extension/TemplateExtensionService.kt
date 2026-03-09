@@ -1,4 +1,4 @@
-package dragon.launcher.template.extension
+package org.elnix.dragonlauncher.template.extension
 
 import android.app.Service
 import android.content.Intent
@@ -14,7 +14,7 @@ class TemplateExtensionService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            "org.dragon.launcher.ACTION_TEMPLATE_COMMAND" -> {
+            "org.elnix.dragonlauncher.ACTION_TEMPLATE_COMMAND" -> {
                 val input = intent.getStringExtra("input_data") ?: ""
                 handleCommand(input)
             }
@@ -26,9 +26,9 @@ class TemplateExtensionService : Service() {
         // Core logic of your extension goes here
         
         // Return result to Dragon Launcher
-        val resultIntent = Intent("org.dragon.launcher.ACTION_TEMPLATE_RESULT").apply {
+        val resultIntent = Intent("org.elnix.dragonlauncher.ACTION_TEMPLATE_RESULT").apply {
             putExtra("output_data", "Processed: $input")
-            `package` = "org.dragon.launcher"
+            `package` = "org.elnix.dragonlauncher"
         }
         startService(resultIntent)
     }

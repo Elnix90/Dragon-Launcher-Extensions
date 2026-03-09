@@ -3,7 +3,7 @@
 Privileged APK installation using **Shizuku** (ADB) for silent updates and extension management.
 
 ## 🛠️ Usage
-- Command: `com.dragon.launcher.ACTION_INSTALL_APK`
+- Command: `org.elnix.dragonlauncher.ACTION_INSTALL_APK`
 - Extras: `apk_path` (String), `package_name` (String)
 
 ## 🛡️ Requirements

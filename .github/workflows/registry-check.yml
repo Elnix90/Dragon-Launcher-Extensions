@@ -44,14 +44,14 @@ jobs:
                     MANIFEST="$ext/src/main/AndroidManifest.xml"
                     if [ -f "$MANIFEST" ]; then
                       # Get package name or ID from manifest or assume registry match
-                      EXT_ID=$(jq -r ".[] | select(.id == \"$ext\" or .id == \"dragon.launcher.${ext#ext-}.extension\") | .id" $REGISTRY)
+                      EXT_ID=$(jq -r ".[] | select(.id == \"$ext\" or .id == \"org.elnix.dragonlauncher.${ext#ext-}.extension\") | .id" $REGISTRY)
                       
                       if [ ! -z "$EXT_ID" ]; then
                         # Get permissions from Registry
                         REG_PERMS=$(jq -r ".[] | select(.id == \"$EXT_ID\") | .additional_permissions[]" $REGISTRY | sort)
                         
                         # Get permissions from Manifest
-                        MANIFEST_PERMS=$(xmllint --xpath "//*[local-name()='uses-permission']/@*[local-name()='name']" $MANIFEST | sed 's/ name="//g' | sed 's/"/ /g' | tr ' ' '\n' | grep -v "com.dragon.launcher.APP_EXTENSION" | sort)
+                        MANIFEST_PERMS=$(xmllint --xpath "//*[local-name()='uses-permission']/@*[local-name()='name']" $MANIFEST | sed 's/ name="//g' | sed 's/"/ /g' | tr ' ' '\n' | grep -v "org.elnix.dragonlauncher.APP_EXTENSION" | sort)
                         
                         if [ "$REG_PERMS" != "$MANIFEST_PERMS" ]; then
                           echo "::error title=Permission Mismatch in $ext::Registry permissions do not match AndroidManifest.xml"

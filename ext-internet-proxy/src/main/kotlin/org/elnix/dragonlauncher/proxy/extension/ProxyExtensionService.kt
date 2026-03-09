@@ -1,4 +1,4 @@
-package dragon.launcher.proxy.extension
+package org.elnix.dragonlauncher.proxy.extension
 
 import android.app.Service
 import android.content.Intent
@@ -14,7 +14,7 @@ class ProxyExtensionService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            "org.dragon.launcher.ACTION_PROXY_FETCH" -> {
+            "org.elnix.dragonlauncher.ACTION_PROXY_FETCH" -> {
                 val url = intent.getStringExtra("url") ?: ""
                 val requestId = intent.getStringExtra("request_id") ?: ""
                 performNetworkRequest(url, requestId)
@@ -37,10 +37,10 @@ class ProxyExtensionService : Service() {
     }
 
     private fun sendResponseToMainApp(requestId: String, data: String) {
-        val responseIntent = Intent("org.dragon.launcher.ACTION_PROXY_RESPONSE").apply {
+        val responseIntent = Intent("org.elnix.dragonlauncher.ACTION_PROXY_RESPONSE").apply {
             putExtra("request_id", requestId)
             putExtra("payload", data)
-            `package` = "org.dragon.launcher"
+            `package` = "org.elnix.dragonlauncher"
         }
         startService(responseIntent)
     }

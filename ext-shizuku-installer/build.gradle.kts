@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "org.dragon.launcher.shizukustaller"
+    namespace = "org.elnix.dragonlauncher.shizukustaller"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "org.dragon.launcher.shizukustaller"
+        applicationId = "org.elnix.dragonlauncher.shizukustaller"
         minSdk = 24
         targetSdk = 34
         versionCode = 2

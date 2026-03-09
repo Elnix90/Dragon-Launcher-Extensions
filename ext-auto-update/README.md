@@ -7,5 +7,5 @@ Handles update checks for the Dragon Launcher ecosystem by querying GitHub Relea
 - Provides download URLs and tag versions back to the launcher.
 
 ## 🛡️ Security
-- **Permission**: `com.dragon.launcher.APP_EXTENSION` (Signature Level)
+- **Permission**: `org.elnix.dragonlauncher.APP_EXTENSION` (Signature Level)
 - **Isolation**: Keeps the main launcher "air-gapped" while still allowing for updates.
