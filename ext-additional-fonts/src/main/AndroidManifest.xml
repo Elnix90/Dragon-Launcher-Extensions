@@ -13,12 +13,27 @@
 
         <service
             android:name=".FontProviderService"
-            android:exported="true"
-            android:permission="org.elnix.dragonlauncher.APP_EXTENSION">
+            android:permission="org.elnix.dragonlauncher.APP_EXTENSION"
+            android:exported="true">
             <intent-filter>
                 <action android:name="org.elnix.dragonlauncher.ACTION_GET_FONTS" />
             </intent-filter>
         </service>
+
+        <activity
+            android:name=".FontListActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.DayNight"
+            android:label="Fonts Explorer">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.elnix.dragonlauncher.ACTION_FONTS_SETTINGS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
     </application>
 

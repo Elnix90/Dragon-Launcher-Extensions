@@ -19,8 +19,10 @@ import java.net.URL
 class FontProviderService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Log.d("FontProvider", "onStartCommand: action=${intent?.action}")
         if (intent?.action == "org.elnix.dragonlauncher.ACTION_GET_FONTS") {
             val fontName = intent.getStringExtra("FONT_NAME") ?: "Roboto"
+            Log.d("FontProvider", "Fetching font: $fontName")
             downloadFontFromCachedList(fontName)
         }
         return START_NOT_STICKY
@@ -29,10 +31,12 @@ class FontProviderService : Service() {
     private fun downloadFontFromCachedList(fontName: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
+                Log.d("FontProvider", "Starting download check for $fontName")
                 // 1. Essayer de charger le fichier JSON local (pré-embarqué)
                 var jsonString: String? = try {
                     assets.open("google-fonts-cache.json").bufferedReader().use { it.readText() }
                 } catch (e: Exception) {
+                    Log.e("FontProvider", "Assets load failed: ${e.message}")
                     null
                 }
 
@@ -48,7 +52,8 @@ class FontProviderService : Service() {
                 }
 
                 if (jsonString != null) {
-                    val fontsArray = JSONObject(jsonString).getJSONArray("fonts")
+                    val jsonObject = JSONObject(jsonString)
+                    val fontsArray = jsonObject.getJSONArray("fonts")
                     var downloadUrl: String? = null
                     
                     for (i in 0 until fontsArray.length()) {
@@ -60,20 +65,26 @@ class FontProviderService : Service() {
                     }
 
                     if (downloadUrl != null) {
-                        val fontFile = File(cacheDir, "$fontName.ttf")
+                        Log.d("FontProvider", "Downloading from: $downloadUrl")
+                        val fontFile = File(cacheDir, "${fontName.replace(" ", "_")}.ttf")
                         URL(downloadUrl).openStream().use { input ->
                             fontFile.outputStream().use { output -> input.copyTo(output) }
                         }
                         
-                        val responseIntent = Intent("org.elnix.dragonlauncher.FONTS_UPDATED").apply {
+                        Log.d("FontProvider", "Font saved to: ${fontFile.absolutePath}")
+                        val responseIntent = Intent("org.elnix.dragonlauncher.ACTION_FONTS_RESULT").apply {
                             putExtra("FONT_PATH", fontFile.absolutePath)
                             putExtra("FONT_NAME", fontName)
+                            `package` = "org.elnix.dragonlauncher"
                         }
                         sendBroadcast(responseIntent)
+                        Log.d("FontProvider", "Broadcast sent to org.elnix.dragonlauncher")
+                    } else {
+                        Log.w("FontProvider", "Font $fontName not found in registry")
                     }
                 }
             } catch (e: Exception) {
-                Log.e("FontProvider", "Erreur : ${e.message}")
+                Log.e("FontProvider", "Erreur globale : ${e.message}", e)
             }
         }
     }

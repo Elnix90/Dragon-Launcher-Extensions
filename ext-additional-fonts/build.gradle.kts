@@ -44,6 +44,15 @@ android {
     }
 }
 
+tasks.register<Copy>("copyFontsCache") {
+    from("${projectDir}/google-fonts-cache.json")
+    into("${projectDir}/src/main/assets")
+}
+
+tasks.named("preBuild") {
+    dependsOn("copyFontsCache")
+}
+
 dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
