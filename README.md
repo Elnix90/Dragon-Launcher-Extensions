@@ -21,13 +21,24 @@ You can download the latest official APKs from the [**Releases Page**](https://g
 
 > [!WARNING]
 > **Use caution with third-party extensions.**
-> Installation of extensions from untrusted sources is strongly discouraged. Because extensions use a **signature-level security model**, unauthorized extensions will be blocked by the launcher, but malicious APKs can still pose a risk to your device. Only install extensions from this official repository.
+> Installation of extensions from untrusted sources is strongly discouraged. Dragon Launcher does not rely on Android's native signature-level protection for extensions; instead, it performs a **manual signature verification**. In production, only extensions signed with the official Dragon certificate are authorized. If the signature check fails, the extension will be blocked unless the user has explicitly enabled **Debug Mode** and **Disable Signature Check**.
 
 ### 🛠️ Manual Build
 Extensions are regular Android modules. To build them all at once:
 1. Clone the repo: `git clone https://github.com/Elnix90/Dragon-Launcher-Extensions`
 2. Run Gradle: `./gradlew assembleRelease`
 3. APKs will be found in `ext-*/build/outputs/apk/release/`
+
+### 🚀 Fast Deploy (Script)
+You can build and install any extension directly to a connected device:
+```bash
+./deploy-extension.sh ext-weather-widget
+```
+If you don't provide a name, the script will list available extensions and ask for input.
+
+> [!TIP]
+> **Developer Setup**: To test your extension in the launcher, you must enable **Debug Mode** and **Disable Signature Check** in the Dragon Launcher settings. 
+> See the [**Setup Screenshot**](DOCS/disable_signature_check.jpg) in the `DOCS` folder for reference.
 
 ---
 
@@ -43,33 +54,26 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 | **Auto-Update** | ![Status](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Elnix90/Dragon-Launcher-Extensions/badges/ext-auto-update.json) | Checks GitHub Releases for the latest versions of the ecosystem. | [`ext-auto-update/`](ext-auto-update/) |
 | **Shizuku Installer**| ![Status](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Elnix90/Dragon-Launcher-Extensions/badges/ext-shizuku-installer.json) | Silent APK installation via privileged ADB shell (Shizuku). | [`ext-shizuku-installer/`](ext-shizuku-installer/) |
 | **Additional Fonts**| ![Status](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Elnix90/Dragon-Launcher-Extensions/badges/ext-additional-fonts.json) | Downloads custom fonts from Google Fonts API. | [`ext-additional-fonts/`](ext-additional-fonts/) |
+| **Weather Widget** | ![Status](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Elnix90/Dragon-Launcher-Extensions/badges/ext-weather-widget.json) | Full weather forecasting (Current, Hourly, Daily) with rain alerts and configuration. | [`ext-weather-widget/`](ext-weather-widget/) |
 
 > Check the [**Extensions Registry**](extensions-registry.json) for full multilingual descriptions (EN, FR, DE, ES, HI, JA, KO, PT) and required permissions.
 
-## 🛠️ Documentation
-
-- [**Architecture & Security**](DOCS/ARCHITECTURE.md): Deep dive into the signature-level security model and communication channels (Intents vs AIDL).
-- [**Extension Template**](DOCS/extension-template/): A reference template showing the expected structure for new extensions.
-
 ## 🤝 How to Contribute
 
-1.  **Explore**: Read the [**Architecture Guide**](DOCS/ARCHITECTURE.md) to understand the security model.
-2.  **Boilerplate**: Use the [`DOCS/extension-template/`](DOCS/extension-template/) folder as a starting point.
-3.  **Naming**: New extensions must be in a root folder prefixed with `ext-`.
-4.  **Registry**: Don't forget to update the [`extensions-registry.json`](extensions-registry.json) with your metadata.
-5.  **CI**: Automated checks will verify that your registry info matches the [`AndroidManifest.xml`](ext-internet-proxy/src/main/AndroidManifest.xml).
+1.  **Naming**: New extensions must be in a root folder prefixed with `ext-`.
+2.  **Registry**: Don't forget to update the [`extensions-registry.json`](extensions-registry.json) with your metadata.
+3.  **CI**: Automated checks will verify that your registry info matches the [`AndroidManifest.xml`](ext-internet-proxy/src/main/AndroidManifest.xml).
 
 ## 🌳 Repository Structure
 
 ```text
 .
+├── .github
 ├── DOCS
-│   ├── ARCHITECTURE.md
-│   └── extension-template
-│       └── src
 ├── LICENSE
 ├── README.md
 ├── build.gradle.kts
+├── deploy-extension.sh
 ├── ext-additional-fonts
 │   ├── build.gradle.kts
 │   ├── google-fonts-cache.json
@@ -90,6 +94,10 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 │   ├── build.gradle.kts
 │   └── src
 │       └── main
+├── ext-weather-widget
+│   ├── build.gradle.kts
+│   └── src
+│       └── main
 ├── extensions-registry.json
 ├── gradle
 │   └── wrapper
@@ -99,8 +107,6 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 ├── gradlew
 ├── gradlew.bat
 └── settings.gradle.kts
-
-18 directories, 19 files
 ```
 
 ## 📄 License

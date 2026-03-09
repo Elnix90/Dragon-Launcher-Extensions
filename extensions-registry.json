@@ -86,5 +86,30 @@
     "download_url": "https://github.com/Elnix90/Dragon-Launcher-Extensions/releases/latest/download/ext-additional-fonts.apk",
     "author": "YoannDev90",
     "license": "GPL-3.0"
+  },
+  {
+    "id": "org.elnix.dragonlauncher.weather.extension",
+    "package": "org.elnix.dragonlauncher.weather",
+    "name": "Weather Widget",
+    "descriptions": {
+      "en": "Provides real-time local weather tracking and current conditions.",
+      "fr": "Fournit un suivi météo local en temps réel et les conditions actuelles.",
+      "de": "Bietet Echtzeit-Lokale Wetterverfolgung und aktuelle Bedingungen.",
+      "es": "Proporciona seguimiento meteorológico local en tiempo real.",
+      "hi": "वास्तविक समय स्थानीय मौसम ट्रैकिंग और वर्तमान स्थिति प्रदान करता है।",
+      "ja": "リアルタイムのローカル気象追跡と現在の状況を提供します。",
+      "ko": "실시간 지역 날씨 추적 및 현재 기상 조건을 제공합니다.",
+      "pt": "Fornece rastreamento meteorológico local em tempo real."
+    },
+    "additional_permissions": [
+      "android.permission.INTERNET",
+      "android.permission.ACCESS_FINE_LOCATION",
+      "android.permission.ACCESS_COARSE_LOCATION",
+      "android.permission.POST_NOTIFICATIONS"
+    ],
+    "versionCode": 2,
+    "download_url": "https://github.com/Elnix90/Dragon-Launcher-Extensions/releases/latest/download/ext-weather-widget.apk",
+    "author": "YoannDev90",
+    "license": "GPL-3.0"
   }
 ]
