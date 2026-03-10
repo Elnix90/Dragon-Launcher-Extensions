@@ -3,6 +3,7 @@
 
     <!-- Permission Internet pour télécharger les polices -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
     
     <!-- Permission pour Dragon Launcher -->
     <uses-permission android:name="org.elnix.dragonlauncher.APP_EXTENSION" />
