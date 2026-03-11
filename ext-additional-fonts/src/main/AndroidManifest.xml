@@ -3,38 +3,55 @@
 
     <!-- Permission Internet pour télécharger les polices -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
     
-    <!-- Permission pour Dragon Launcher -->
-    <uses-permission android:name="org.elnix.dragonlauncher.APP_EXTENSION" />
+    <!-- Permissions ciblées pour la communication avec le Launcher -->
+    <!-- READ_SETTINGS : Pour lire la configuration du launcher (thème, langue, etc.) -->
+    <uses-permission android:name="org.elnix.dragonlauncher.permission.READ_SETTINGS" />
+    <!-- WRITE_SETTINGS : Pour soumettre un changement (ex: police sélectionnée) -->
+    <uses-permission android:name="org.elnix.dragonlauncher.permission.WRITE_SETTINGS" />
+
+    <!-- Nécessaire pour Android 11+ pour voir et communiquer avec le Launcher -->
+    <queries>
+        <package android:name="org.elnix.dragonlauncher" />
+        <provider android:authorities="org.elnix.dragonlauncher.extensions.provider" />
+    </queries>
 
     <application
-        android:label="Dragon Fonts Extension"
-        android:theme="@style/Theme.AppCompat.NoActionBar">
+        android:label="Dragon Fonts Extension">
+
+        <!-- Provider pour exposer la liste des polices et les URIs FileProvider au Launcher -->
+        <provider
+            android:name=".FontProvider"
+            android:authorities="org.elnix.dragonlauncher.fonts.provider"
+            android:exported="true"
+            android:readPermission="org.elnix.dragonlauncher.permission.READ_SETTINGS" />
 
         <service
             android:name=".FontProviderService"
-            android:permission="org.elnix.dragonlauncher.APP_EXTENSION"
-            android:exported="true">
+            android:exported="true"
+            android:foregroundServiceType="dataSync"
+            android:permission="org.elnix.dragonlauncher.permission.WRITE_SETTINGS">
             <intent-filter>
                 <action android:name="org.elnix.dragonlauncher.ACTION_GET_FONTS" />
+                <action android:name="org.elnix.dragonlauncher.ACTION_DOWNLOAD_ALL" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".FontListActivity"
-            android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight"
-            android:label="Fonts Explorer">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="org.elnix.dragonlauncher.ACTION_FONTS_SETTINGS" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
     </application>
 

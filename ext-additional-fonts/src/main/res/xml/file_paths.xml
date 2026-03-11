@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <cache-path name="font_cache" path="." />
+    <asset-path name="font_assets" path="fonts/" />
+</paths>
