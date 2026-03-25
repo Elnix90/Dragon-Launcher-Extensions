@@ -17,6 +17,5 @@ rootProject.name = "Dragon-Launcher-Extensions"
 
 include(":ext-internet-proxy")
 include(":ext-auto-update")
-include(":ext-shizuku-installer")
 include(":ext-additional-fonts")
 include(":ext-weather-widget")

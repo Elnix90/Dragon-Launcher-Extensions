@@ -1,6 +1,5 @@
 [
   {
-    "id": "org.elnix.dragonlauncher.proxy.extension",
     "package": "org.elnix.dragonlauncher.proxy",
     "name": "Internet Proxy",
     "descriptions": {
@@ -22,7 +21,6 @@
     "license": "GPL-3.0"
   },
   {
-    "id": "org.elnix.dragonlauncher.update.extension",
     "package": "org.elnix.dragonlauncher.autoupdate",
     "name": "Auto-Update",
     "descriptions": {
@@ -44,29 +42,6 @@
     "license": "GPL-3.0"
   },
   {
-    "id": "org.elnix.dragonlauncher.shizuku.extension",
-    "package": "org.elnix.dragonlauncher.shizukustaller",
-    "name": "Shizuku Installer",
-    "descriptions": {
-      "en": "Provides privileged installation capabilities via Shizuku (ADB).",
-      "fr": "Fournit des capacités d'installation privilégiées via Shizuku (ADB).",
-      "de": "Bietet privilegierte Installationsfunktionen über Shizuku (ADB).",
-      "es": "Proporciona capacités de installation privilégias à travers de Shizuku (ADB).",
-      "hi": "Shizuku (ADB) के माध्यम se विशेषाधिकार प्राप्त इंस्टॉलेशन क्षमताएं प्रदान करता है।",
-      "ja": "Shizuku (ADB) を介して特権的なインストール機能を提供します。",
-      "ko": "Shizuku (ADB)를 통해 권한 있는 설치 기능을 제공합니다.",
-      "pt": "Fornece recursos de installation privilégiés via Shizuku (ADB)."
-    },
-    "additional_permissions": [
-      "moe.shizuku.privilege.permission.API_V23"
-    ],
-    "versionCode": 2,
-    "download_url": "https://github.com/Elnix90/Dragon-Launcher-Extensions/releases/latest/download/ext-shizuku-installer.apk",
-    "author": "YoannDev90",
-    "license": "GPL-3.0"
-  },
-  {
-    "id": "org.elnix.dragonlauncher.fonts.extension",
     "package": "org.elnix.dragonlauncher.fonts",
     "name": "Additional Fonts",
     "descriptions": {
@@ -88,7 +63,6 @@
     "license": "GPL-3.0"
   },
   {
-    "id": "org.elnix.dragonlauncher.weather.extension",
     "package": "org.elnix.dragonlauncher.weather",
     "name": "Weather Widget",
     "descriptions": {
