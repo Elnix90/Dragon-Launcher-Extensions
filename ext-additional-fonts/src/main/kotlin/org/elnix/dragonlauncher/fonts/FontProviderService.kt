@@ -70,7 +70,7 @@ class FontProviderService : Service() {
                 description = descriptionText
             }
             val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
     }
@@ -88,7 +88,7 @@ class FontProviderService : Service() {
     }
 
     private fun updateNotification(contentText: String, progress: Int, total: Int, indeterminate: Boolean = false) {
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(NOTIFICATION_ID, createNotification(contentText, progress, total, indeterminate))
     }
 

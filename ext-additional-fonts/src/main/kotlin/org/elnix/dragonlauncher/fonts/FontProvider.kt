@@ -9,10 +9,12 @@ import android.content.Intent
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import androidx.core.content.FileProvider
 import org.json.JSONObject
 import java.io.File
 import java.io.InputStreamReader
+import androidx.core.net.toUri
 
 class FontProvider : ContentProvider() {
 
@@ -32,16 +34,24 @@ class FontProvider : ContentProvider() {
         selectionArgs: Array<out String>?,
         sortOrder: String?
     ): Cursor? {
-        val context = context ?: return null
+        Log.d("FontProvider", ">>> query called: $uri")
+        val ctx = context ?: run {
+            Log.e("FontProvider", "context is null")
+            return null
+        }
+        Log.d("FontProvider", ">>> context.packageName: ${ctx.packageName}")
+
         val cursor = MatrixCursor(arrayOf("name", "uri", "is_asset", "category"))
 
         try {
             // Lecture du cache JSON
-            val assetManager = context.assets
+            val assetManager = ctx.assets
             val inputStream = assetManager.open("google-fonts-cache.json")
             val jsonContent = InputStreamReader(inputStream).readText()
             val jsonObject = JSONObject(jsonContent)
             val fontsArray = jsonObject.getJSONArray("fonts")
+
+            Log.d("FontProvider", ">>> Loaded ${fontsArray.length()} fonts")
 
             // Liste des fichiers TTF déjà présents en assets
             val assetsFonts = assetManager.list("fonts")?.toSet() ?: emptySet()
@@ -58,27 +68,29 @@ class FontProvider : ContentProvider() {
                 var fontUri: String? = null
 
                 if (isAsset) {
-                    val cacheFile = File(context.cacheDir, "fonts/$fileName")
+                    val cacheFile = File(ctx.cacheDir, "fonts/$fileName")
                     if (!cacheFile.exists()) {
                         cacheFile.parentFile?.mkdirs()
-                        context.assets.open("fonts/$fileName").use { input ->
+                        ctx.assets.open("fonts/$fileName").use { input ->
                             cacheFile.outputStream().use { output -> input.copyTo(output) }
                         }
                     }
-                    fontUri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", cacheFile).toString()
+                    fontUri = FileProvider.getUriForFile(ctx, "${ctx.packageName}.fileprovider", cacheFile).toString()
                 } else {
-                    val cacheFile = File(context.cacheDir, "preview_$fileName")
+                    val cacheFile = File(ctx.cacheDir, "preview_$fileName")
                     if (cacheFile.exists()) {
-                        fontUri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", cacheFile).toString()
+                        fontUri = FileProvider.getUriForFile(ctx, "${ctx.packageName}.fileprovider", cacheFile).toString()
                     }
                 }
 
                 cursor.addRow(arrayOf(family, fontUri ?: "", if (isAsset) 1 else 0, category))
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e("FontProvider", "Error in query", e)
         }
 
+
+        Log.d("FontProvider", ">>> Returning cursor with ${cursor.count} rows")
         return cursor
     }
 
@@ -127,7 +139,7 @@ class FontProvider : ContentProvider() {
             }
             context.sendBroadcast(intent)
             
-            return Uri.parse("content://org.elnix.dragonlauncher.fonts.provider/status/$family")
+            return "content://org.elnix.dragonlauncher.fonts.provider/status/$family".toUri()
         }
         
         return null

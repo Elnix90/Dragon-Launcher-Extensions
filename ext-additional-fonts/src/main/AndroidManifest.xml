@@ -7,8 +7,10 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
-    
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
     <!-- Permissions ciblées pour la communication avec le Launcher -->
     <!-- READ_SETTINGS : Pour lire la configuration du launcher (thème, langue, etc.) -->
     <uses-permission android:name="org.elnix.dragonlauncher.permission.READ_SETTINGS" />
@@ -18,18 +20,21 @@
     <!-- Nécessaire pour Android 11+ pour voir et communiquer avec le Launcher -->
     <queries>
         <package android:name="org.elnix.dragonlauncher" />
-        <provider android:authorities="org.elnix.dragonlauncher.extensions.provider" />
+        <provider android:authorities="org.elnix.dragonlauncher.provider" />
     </queries>
 
-    <application
-        android:label="Dragon Fonts Extension">
+    <permission
+        android:name="org.elnix.dragonlauncher.permission.ACCESS_FONTS"
+        android:protectionLevel="normal" />
+
+    <application android:label="Dragon Fonts Extension">
 
         <!-- Provider pour exposer la liste des polices et les URIs FileProvider au Launcher -->
         <provider
             android:name=".FontProvider"
             android:authorities="org.elnix.dragonlauncher.fonts.provider"
             android:exported="true"
-            android:readPermission="org.elnix.dragonlauncher.permission.READ_SETTINGS" />
+            android:readPermission="org.elnix.dragonlauncher.permission.ACCESS_FONTS" />
 
         <service
             android:name=".FontProviderService"
@@ -39,6 +44,7 @@
             <intent-filter>
                 <action android:name="org.elnix.dragonlauncher.ACTION_GET_FONTS" />
                 <action android:name="org.elnix.dragonlauncher.ACTION_DOWNLOAD_ALL" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
