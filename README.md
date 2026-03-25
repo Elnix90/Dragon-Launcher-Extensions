@@ -76,21 +76,29 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 ├── deploy-extension.sh
 ├── ext-additional-fonts
 │   ├── build.gradle.kts
+│   ├── consumer-rules.pro
 │   ├── google-fonts-cache.json
+│   ├── proguard-rules.pro
 │   └── src
 │       └── main
 ├── ext-auto-update
 │   ├── README.md
 │   ├── build.gradle.kts
+│   ├── consumer-rules.pro
+│   ├── proguard-rules.pro
 │   └── src
 │       └── main
 ├── ext-internet-proxy
 │   ├── README.md
 │   ├── build.gradle.kts
+│   ├── consumer-rules.pro
+│   ├── proguard-rules.pro
 │   └── src
 │       └── main
 ├── ext-weather-widget
 │   ├── build.gradle.kts
+│   ├── consumer-rules.pro
+│   ├── proguard-rules.pro
 │   └── src
 │       └── main
 ├── extensions-registry.json
@@ -104,7 +112,7 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 ├── gradlew.bat
 └── settings.gradle.kts
 
-16 directories, 20 files
+16 directories, 28 files
 ```
 
 ## 📄 License
