@@ -15,10 +15,6 @@ on:
         description: 'Build Auto-Update'
         type: boolean
         default: true
-      ext-shizuku-installer:
-        description: 'Build Shizuku Installer'
-        type: boolean
-        default: true
       ext-additional-fonts:
         description: 'Build Additional Fonts'
         type: boolean
@@ -65,7 +61,6 @@ jobs:
           else
             if [ "${{ github.event.inputs['ext-internet-proxy'] }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-internet-proxy"]'); fi
             if [ "${{ github.event.inputs['ext-auto-update'] }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-auto-update"]'); fi
-            if [ "${{ github.event.inputs['ext-shizuku-installer'] }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-shizuku-installer"]'); fi
             if [ "${{ github.event.inputs['ext-additional-fonts'] }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-additional-fonts"]'); fi
             if [ "${{ github.event.inputs['ext-weather-widget'] }}" = "true" ]; then LIST=$(echo $LIST | jq -c '. += ["ext-weather-widget"]'); fi
           fi
