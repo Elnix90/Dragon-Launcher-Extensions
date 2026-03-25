@@ -32,8 +32,8 @@
         <provider
             android:name=".FontProvider"
             android:authorities="org.elnix.dragonlauncher.fonts.provider"
-            android:exported="true"
-            android:readPermission="org.elnix.dragonlauncher.permission.ACCESS_FONTS" />
+            android:exported="true"/>
+<!--            android:readPermission="org.elnix.dragonlauncher.permission.ACCESS_FONTS" />-->
 
         <service
             android:name=".FontProviderService"
