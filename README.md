@@ -102,6 +102,7 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 │       └── main
 ├── extensions-registry.json
 ├── gradle
+│   ├── gradle-daemon-jvm.properties
 │   ├── libs.versions.toml
 │   └── wrapper
 │       ├── gradle-wrapper.jar
@@ -111,7 +112,7 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 ├── gradlew.bat
 └── settings.gradle.kts
 
-16 directories, 28 files
+16 directories, 29 files
 ```
 
 ## 📄 License
