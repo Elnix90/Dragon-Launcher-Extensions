@@ -89,17 +89,13 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 │   ├── build.gradle.kts
 │   └── src
 │       └── main
-├── ext-shizuku-installer
-│   ├── README.md
-│   ├── build.gradle.kts
-│   └── src
-│       └── main
 ├── ext-weather-widget
 │   ├── build.gradle.kts
 │   └── src
 │       └── main
 ├── extensions-registry.json
 ├── gradle
+│   ├── libs.versions.toml
 │   └── wrapper
 │       ├── gradle-wrapper.jar
 │       └── gradle-wrapper.properties
@@ -108,7 +104,7 @@ Extensions allow users to add functionality (like Internet access, Auto-updates,
 ├── gradlew.bat
 └── settings.gradle.kts
 
-19 directories, 21 files
+16 directories, 20 files
 ```
 
 ## 📄 License
