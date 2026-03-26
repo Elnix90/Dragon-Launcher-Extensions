@@ -15,7 +15,7 @@
     "additional_permissions": [
       "android.permission.INTERNET"
     ],
-    "versionCode": 2,
+    "versionCode": 3,
     "download_url": "https://github.com/Elnix90/Dragon-Launcher-Extensions/releases/latest/download/ext-internet-proxy.apk",
     "author": "YoannDev90",
     "license": "GPL-3.0"
