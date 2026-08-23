@@ -1,8 +1,9 @@
 name: "Sync Google Fonts List"
 
 on:
-    schedule:
-        - cron: "0 0 1 * *" # Le 1er de chaque mois à minuit
+# Disable cause really not very useful lol
+#    schedule:
+#        - cron: "0 0 1 * *" # Le 1er de chaque mois à minuit
     workflow_dispatch: # Permet le lancement manuel
 
 jobs:
